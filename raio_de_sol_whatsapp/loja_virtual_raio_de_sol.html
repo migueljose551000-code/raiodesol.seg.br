@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raio de Sol | Joias Elegantes & Modernas</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Playfair Display & Montserrat) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            100: '#FBF5E8',
+                            300: '#E6CA85',
+                            400: '#DFB863',
+                            500: '#D4AF37',
+                            600: '#C5A059',
+                            700: '#9A7B31',
+                        },
+                        nude: {
+                            50: '#FAF8F5',
+                            100: '#F7F3ED',
+                            200: '#ECE4D8',
+                            300: '#D9CBBB',
+                        },
+                        charcoal: '#222222',
+                    },
+                    fontFamily: {
+                        serif: ['Playfair Display', 'serif'],
+                        sans: ['Montserrat', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #FAF8F5;
+            color: #222222;
+        }
+        .font-serif {
+            font-family: 'Playfair Display', serif;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #F7F3ED;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4AF37;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C5A059;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold-300 selection:text-charcoal">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-charcoal text-gold-300 text-xs py-2 text-center tracking-widest uppercase font-light">
+        ✨ Frete Grátis para todo o Brasil em compras acima de R$ 299 | Parcele em até 6x sem juros ✨
+    </div>
+
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-40 bg-nude-50/90 backdrop-blur-md border-b border-nude-200 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+                
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="switchView('store')">
+                    <div class="p-2 rounded-full bg-gold-100 mr-2 text-gold-600">
+                        <i data-lucide="sun" class="w-6 h-6 animate-spin-slow"></i>
+                    </div>
+                    <div>
+                        <span class="font-serif text-2xl font-bold tracking-wider text-charcoal block leading-none">RAIO DE SOL</span>
+                        <span class="text-[9px] tracking-[0.25em] text-gold-600 uppercase font-medium block mt-1">Joias & Semijoias</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Links (Desktop) -->
+                <nav class="hidden md:flex space-x-8 text-xs font-medium uppercase tracking-widest">
+                    <button onclick="filterCategory('all')" class="hover:text-gold-600 transition-colors">Início</button>
+                    <button onclick="filterCategory('Aneis')" class="hover:text-gold-600 transition-colors">Anéis</button>
+                    <button onclick="filterCategory('Colares')" class="hover:text-gold-600 transition-colors">Colares</button>
+                    <button onclick="filterCategory('Brincos')" class="hover:text-gold-600 transition-colors">Brincos</button>
+                    <button onclick="filterCategory('Pulseiras')" class="hover:text-gold-600 transition-colors">Pulseiras</button>
+                    <button onclick="filterCategory('Coleções')" class="hover:text-gold-600 transition-colors">Coleções</button>
+                </nav>
+
+                <!-- Action Controls -->
+                <div class="flex items-center space-x-4">
+                    <!-- Search Input Box -->
+                    <div class="relative hidden sm:block w-48 lg:w-64">
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Buscar joia..." class="w-full bg-white text-xs pl-8 pr-4 py-2 rounded-full border border-nude-200 focus:outline-none focus:border-gold-500 transition-colors">
+                        <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-2.5 top-2.5"></i>
+                    </div>
+
+                    <!-- Cart Toggle Button -->
+                    <button id="cartBtn" onclick="toggleCartDrawer(true)" class="relative p-2 text-charcoal hover:text-gold-600 transition-colors">
+                        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
+                        <span id="cartBadge" class="absolute top-0 right-0 bg-gold-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white transform translate-x-1 -translate-y-1 scale-0 transition-transform duration-200">0</span>
+                    </button>
+
+                    <!-- View Switcher Button (Client vs ADM) -->
+                    <button onclick="toggleAdminView()" id="viewSwitchBtn" class="flex items-center gap-2 bg-charcoal text-gold-300 hover:bg-gold-600 hover:text-white px-4 py-2 rounded-full text-xs font-medium transition-all shadow-sm">
+                        <i data-lucide="shield-check" class="w-4 h-4"></i>
+                        <span id="viewSwitchText">Painel ADM</span>
+                    </button>
+
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-charcoal">
+                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-nude-200 px-4 pt-2 pb-4 space-y-2 text-sm font-medium">
+            <div class="mb-3">
+                <input type="text" id="mobileSearchInput" oninput="handleSearchMobile()" placeholder="Buscar joia..." class="w-full bg-nude-50 text-xs pl-8 pr-4 py-2 rounded-full border border-nude-200">
+            </div>
+            <button onclick="filterCategory('all'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Todas as Peças</button>
+            <button onclick="filterCategory('Aneis'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Anéis</button>
+            <button onclick="filterCategory('Colares'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Colares</button>
+            <button onclick="filterCategory('Brincos'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Brincos</button>
+            <button onclick="filterCategory('Pulseiras'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Pulseiras</button>
+            <button onclick="filterCategory('Coleções'); toggleMobileMenu();" class="block w-full text-left py-2">Coleções Exclusivas</button>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow">
+        
+        <!-- ========================================== -->
+        <!-- CLIENT VIEW (LOJA VIRTUAL)                 -->
+        <!-- ========================================== -->
+        <section id="clientView" class="block">
+            
+            <!-- Hero Banner -->
+            <div class="relative bg-nude-100 overflow-hidden py-16 sm:py-24 border-b border-nude-200">
+                <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]"></div>
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                        <div class="text-left space-y-6">
+                            <span class="inline-block text-gold-600 text-xs uppercase tracking-[0.3em] font-semibold bg-gold-100 px-3 py-1 rounded-full">Alta Joalheria & Elegância</span>
+                            <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-charcoal leading-tight">Ilumine sua essência com a luz de Raio de Sol</h1>
+                            <p class="text-gray-600 font-light text-base sm:text-lg max-w-lg">Design contemporâneo, acabamento impecável banhado a ouro 18k e prata 925. Descubra a coleção feita para realçar seu brilho único.</p>
+                            <div class="flex flex-wrap gap-4 pt-2">
+                                <a href="#catalog" class="bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest px-8 py-4 rounded-full transition-all transform hover:-translate-y-0.5 shadow-lg shadow-gold-500/20">Ver Coleção</a>
+                                <button onclick="filterCategory('Coleções')" class="border border-charcoal text-charcoal hover:bg-charcoal hover:text-white font-medium text-xs uppercase tracking-widest px-8 py-4 rounded-full transition-all">Lançamentos</button>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-2xl relative">
+                                <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=1000" alt="Joias de Luxo Raio de Sol" class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700">
+                                <div class="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent"></div>
+                                <div class="absolute bottom-6 left-6 text-white">
+                                    <p class="font-serif italic text-lg">Coleção Solstice '26</p>
+                                    <p class="text-xs font-light text-gold-300">Design Exclusivo</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Categories Highlight Section -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+                <div class="text-center max-w-2xl mx-auto mb-12">
+                    <h2 class="font-serif text-3xl text-charcoal font-semibold mb-3">Categorias em Destaque</h2>
+                    <p class="text-gray-500 text-xs tracking-wider uppercase">Encontre a peça perfeita para cada momento</p>
+                    <div class="w-12 h-0.5 bg-gold-500 mx-auto mt-4"></div>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                    <div onclick="filterCategory('Aneis')" class="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-charcoal/30 group-hover:bg-charcoal/20 transition-colors"></div>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+                            <h3 class="font-serif text-xl tracking-wide">Anéis</h3>
+                            <span class="text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
+                        </div>
+                    </div>
+                    <div onclick="filterCategory('Colares')" class="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-charcoal/30 group-hover:bg-charcoal/20 transition-colors"></div>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+                            <h3 class="font-serif text-xl tracking-wide">Colares</h3>
+                            <span class="text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
+                        </div>
+                    </div>
+                    <div onclick="filterCategory('Brincos')" class="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-charcoal/30 group-hover:bg-charcoal/20 transition-colors"></div>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+                            <h3 class="font-serif text-xl tracking-wide">Brincos</h3>
+                            <span class="text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
+                        </div>
+                    </div>
+                    <div onclick="filterCategory('Pulseiras')" class="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1611591475170-be63595e0939?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="absolute inset-0 bg-charcoal/30 group-hover:bg-charcoal/20 transition-colors"></div>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
+                            <h3 class="font-serif text-xl tracking-wide">Pulseiras</h3>
+                            <span class="text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Product Catalog Section -->
+            <div id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-nude-200">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                    <div>
+                        <h2 class="font-serif text-3xl text-charcoal font-semibold">Nosso Catálogo</h2>
+                        <p id="currentFilterText" class="text-xs text-gold-700 tracking-wider uppercase mt-1">Exibindo: Todas as Joias</p>
+                    </div>
+
+                    <!-- Category & Sorting Filters -->
+                    <div class="flex flex-wrap items-center gap-3">
+                        <div class="flex items-center space-x-1 bg-white p-1 rounded-lg border border-nude-200 text-xs">
+                            <button onclick="filterCategory('all')" class="cat-filter-btn px-3 py-1.5 rounded-md transition-all active-cat bg-gold-500 text-white" data-cat="all">Todos</button>
+                            <button onclick="filterCategory('Aneis')" class="cat-filter-btn px-3 py-1.5 rounded-md hover:bg-nude-100 text-gray-700" data-cat="Aneis">Anéis</button>
+                            <button onclick="filterCategory('Colares')" class="cat-filter-btn px-3 py-1.5 rounded-md hover:bg-nude-100 text-gray-700" data-cat="Colares">Colares</button>
+                            <button onclick="filterCategory('Brincos')" class="cat-filter-btn px-3 py-1.5 rounded-md hover:bg-nude-100 text-gray-700" data-cat="Brincos">Brincos</button>
+                            <button onclick="filterCategory('Pulseiras')" class="cat-filter-btn px-3 py-1.5 rounded-md hover:bg-nude-100 text-gray-700" data-cat="Pulseiras">Pulseiras</button>
+                        </div>
+
+                        <select id="sortSelect" onchange="applySorting()" class="bg-white border border-nude-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-gold-500">
+                            <option value="default">Ordenar por: Relevância</option>
+                            <option value="price-asc">Preço: Menor para Maior</option>
+                            <option value="price-desc">Preço: Maior para Menor</option>
+                            <option value="name">Nome (A-Z)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Products Grid -->
+                <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Dynamic Product Cards Injected Here -->
+                </div>
+            </div>
+
+            <!-- Value Proposition Banner -->
+            <div class="bg-nude-100 py-16 border-t border-nude-200 mt-12">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                        <div class="p-6 space-y-3">
+                            <div class="w-12 h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto">
+                                <i data-lucide="award" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-serif text-lg font-semibold text-charcoal">Garantia Vitalícia</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed">Garantia permanente sobre a autenticidade dos metais e pedras preciosas.</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="w-12 h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto">
+                                <i data-lucide="truck" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-serif text-lg font-semibold text-charcoal">Entrega Segura</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed">Embalagens discretas e transporte rastreado com seguro total até você.</p>
+                        </div>
+                        <div class="p-6 space-y-3">
+                            <div class="w-12 h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto">
+                                <i data-lucide="sparkles" class="w-6 h-6"></i>
+                            </div>
+                            <h4 class="font-serif text-lg font-semibold text-charcoal">Design Exclusivo</h4>
+                            <p class="text-xs text-gray-500 leading-relaxed">Peças desenhadas por artesãos especializados com acabamento perfeito.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========================================== -->
+        <!-- ADMIN VIEW (PAINEL ADMINISTRATIVO)         -->
+        <!-- ========================================== -->
+        <section id="adminView" class="hidden bg-gray-50 min-h-screen py-8">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                
+                <!-- Admin Header Bar -->
+                <div class="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-8 border-b border-gray-200">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="bg-gold-500 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">Módulo ADM</span>
+                            <h1 class="font-serif text-2xl font-bold text-charcoal">Painel de Gestão Raio de Sol</h1>
+                        </div>
+                        <p class="text-xs text-gray-500 mt-1">Gerencie produtos, estoque, vendas e pedidos recebidos em tempo real.</p>
+                    </div>
+
+                    <div class="mt-4 md:mt-0 flex items-center gap-3">
+                        <button onclick="openProductModal()" class="bg-gold-500 hover:bg-gold-600 text-white text-xs font-semibold px-4 py-2.5 rounded-lg flex items-center gap-2 transition-colors shadow-sm">
+                            <i data-lucide="plus" class="w-4 h-4"></i> Novo Produto
+                        </button>
+                    </div>
+                </div>
+
+                <!-- KPI Dashboard Cards -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex items-center justify-between text-gray-400 mb-2">
+                            <span class="text-xs uppercase font-medium tracking-wider">Faturamento Total</span>
+                            <i data-lucide="dollar-sign" class="w-5 h-5 text-gold-500"></i>
+                        </div>
+                        <div id="kpiRevenue" class="text-2xl font-bold text-charcoal">R$ 0,00</div>
+                        <span class="text-[11px] text-emerald-600 font-medium">↑ Atualizado em tempo real</span>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex items-center justify-between text-gray-400 mb-2">
+                            <span class="text-xs uppercase font-medium tracking-wider">Total de Pedidos</span>
+                            <i data-lucide="shopping-bag" class="w-5 h-5 text-gold-500"></i>
+                        </div>
+                        <div id="kpiOrders" class="text-2xl font-bold text-charcoal">0</div>
+                        <span class="text-[11px] text-gray-500 font-medium">Pedidos realizados na loja</span>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex items-center justify-between text-gray-400 mb-2">
+                            <span class="text-xs uppercase font-medium tracking-wider">Produtos Ativos</span>
+                            <i data-lucide="gem" class="w-5 h-5 text-gold-500"></i>
+                        </div>
+                        <div id="kpiProducts" class="text-2xl font-bold text-charcoal">0</div>
+                        <span class="text-[11px] text-gray-500 font-medium">Catálogo cadastrado</span>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                        <div class="flex items-center justify-between text-gray-400 mb-2">
+                            <span class="text-xs uppercase font-medium tracking-wider">Ticket Médio</span>
+                            <i data-lucide="trending-up" class="w-5 h-5 text-gold-500"></i>
+                        </div>
+                        <div id="kpiAvgTicket" class="text-2xl font-bold text-charcoal">R$ 0,00</div>
+                        <span class="text-[11px] text-gray-500 font-medium">Média por pedido</span>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl border border-gray-200 p-4 mb-6">
+                    <h3 class="font-semibold text-sm mb-3">Configurações de pagamento</h3>
+                    <div class="grid md:grid-cols-2 gap-3">
+                        <div><label class="block text-xs mb-1">WhatsApp da loja (DDI + DDD + número)</label><input id="storeWhatsapp" class="w-full border rounded-lg p-2.5 text-sm" placeholder="5511999999999"></div>
+                        <div><label class="block text-xs mb-1">Chave PIX da loja</label><input id="storePixKey" class="w-full border rounded-lg p-2.5 text-sm" placeholder="CPF, CNPJ, e-mail, telefone ou chave aleatória"></div>
+                        <div><label class="block text-xs mb-1">Upload do QR Code PIX fornecido pelo banco</label><input type="file" id="storePixQrFile" accept="image/*" class="w-full border rounded-lg p-2.5 text-sm"></div>
+                        <div class="flex items-center gap-3"><img id="adminPixQrPreview" class="hidden w-20 h-20 object-contain border rounded" alt="Prévia QR PIX"><button onclick="savePaymentSettings()" class="bg-gold-500 text-white rounded-lg px-4 py-2 text-sm">Salvar configurações</button></div>
+                    </div>
+                    <p class="text-[11px] text-gray-500 mt-2">Use o QR Code PIX estático/dinâmico emitido pelo seu banco. Este site não confirma automaticamente o recebimento do PIX.</p>
+                </div>
+
+                <!-- Admin Tabs Control -->
+                <div class="flex border-b border-gray-200 mb-6 space-x-6 text-sm font-medium">
+                    <button onclick="switchAdminTab('products')" id="tabProductsBtn" class="pb-3 border-b-2 border-gold-500 text-gold-600 font-semibold flex items-center gap-2">
+                        <i data-lucide="package" class="w-4 h-4"></i> Cadastro de Produtos
+                    </button>
+                    <button onclick="switchAdminTab('orders')" id="tabOrdersBtn" class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center gap-2">
+                        <i data-lucide="clipboard-list" class="w-4 h-4"></i> Gestão de Pedidos
+                    </button>
+                </div>
+
+                <!-- TAB 1: PRODUCTS MANAGER -->
+                <div id="adminTabProducts" class="block">
+                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+                        <div class="p-4 border-b border-gray-200 bg-gray-50/50 flex justify-between items-center">
+                            <h3 class="font-semibold text-sm text-gray-700">Lista de Joias no Catálogo</h3>
+                            <span class="text-xs text-gray-500">Clique em editar para modificar preços ou estoque</span>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider border-b border-gray-200">
+                                    <tr>
+                                        <th class="p-4">Produto</th>
+                                        <th class="p-4">Categoria</th>
+                                        <th class="p-4">Preço</th>
+                                        <th class="p-4">Estoque</th>
+                                        <th class="p-4 text-right">Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminProductsTable" class="divide-y divide-gray-100">
+                                    <!-- Dynamic Product Rows Injected Here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: ORDERS MANAGER -->
+                <div id="adminTabOrders" class="hidden">
+                    <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
+                        <div class="p-4 border-b border-gray-200 bg-gray-50/50">
+                            <h3 class="font-semibold text-sm text-gray-700">Histórico de Pedidos Recebidos</h3>
+                        </div>
+                        <div class="overflow-x-auto">
+                            <table class="w-full text-left text-xs">
+                                <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider border-b border-gray-200">
+                                    <tr>
+                                        <th class="p-4">ID Pedido</th>
+                                        <th class="p-4">Cliente</th>
+                                        <th class="p-4">Itens</th>
+                                        <th class="p-4">Pagamento</th>
+                                        <th class="p-4">Total</th>
+                                        <th class="p-4">Status</th>
+                                        <th class="p-4 text-right">Alterar Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="adminOrdersTable" class="divide-y divide-gray-100">
+                                    <!-- Dynamic Orders Rows Injected Here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-charcoal text-white pt-16 pb-8 border-t border-gold-600/30">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-gray-800">
+                <div class="space-y-4">
+                    <div class="flex items-center">
+                        <i data-lucide="sun" class="w-6 h-6 text-gold-400 mr-2"></i>
+                        <span class="font-serif text-xl font-bold tracking-wider">RAIO DE SOL</span>
+                    </div>
+                    <p class="text-xs text-gray-400 leading-relaxed">Especialistas em eternizar momentos através da luz e elegância de joias atemporais.</p>
+                </div>
+
+                <div>
+                    <h5 class="font-serif text-sm font-semibold text-gold-300 mb-4 tracking-wider uppercase">Navegação</h5>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li><a href="#" onclick="filterCategory('Aneis')" class="hover:text-gold-400 transition-colors">Anéis Banhado Ouro</a></li>
+                        <li><a href="#" onclick="filterCategory('Colares')" class="hover:text-gold-400 transition-colors">Colares & Gargantilhas</a></li>
+                        <li><a href="#" onclick="filterCategory('Brincos')" class="hover:text-gold-400 transition-colors">Brincos Elegantes</a></li>
+                        <li><a href="#" onclick="filterCategory('Pulseiras')" class="hover:text-gold-400 transition-colors">Pulseiras e Braceletes</a></li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-serif text-sm font-semibold text-gold-300 mb-4 tracking-wider uppercase">Atendimento</h5>
+                    <ul class="space-y-2 text-xs text-gray-400">
+                        <li>Atendimento ao Cliente (SAC)</li>
+                        <li>Segunda a Sexta: 09h às 18h</li>
+                        <li>contato@raiodesoljoias.com.br</li>
+                        <li>(11) 99887-6655</li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h5 class="font-serif text-sm font-semibold text-gold-300 mb-4 tracking-wider uppercase">Formas de Pagamento</h5>
+                    <div class="flex flex-wrap gap-2 text-gray-400 text-xs">
+                        <span class="bg-gray-800 px-3 py-1.5 rounded border border-gray-700">PIX (5% OFF)</span>
+                        <span class="bg-gray-800 px-3 py-1.5 rounded border border-gray-700">Cartão de Crédito</span>
+                        <span class="bg-gray-800 px-3 py-1.5 rounded border border-gray-700">Boleto</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 text-center text-xs text-gray-500">
+                <p>&copy; 2026 Raio de Sol Joias & Semijoias. Todos os direitos reservados. Design Exclusivo.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================================== -->
+    <!-- MODALS & DRAWERS                           -->
+    <!-- ========================================== -->
+
+    <!-- SHOPPING CART DRAWER -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
+        <div class="absolute inset-0 bg-charcoal/60 backdrop-blur-sm transition-opacity" onclick="toggleCartDrawer(false)"></div>
+        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+            <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between">
+                
+                <!-- Drawer Header -->
+                <div class="p-6 border-b border-nude-200 flex items-center justify-between bg-nude-50">
+                    <div class="flex items-center gap-2">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 text-gold-600"></i>
+                        <h3 class="font-serif text-lg font-semibold text-charcoal">Seu Carrinho</h3>
+                    </div>
+                    <button onclick="toggleCartDrawer(false)" class="p-1 text-gray-400 hover:text-charcoal">
+                        <i data-lucide="x" class="w-6 h-6"></i>
+                    </button>
+                </div>
+
+                <!-- Cart Items List -->
+                <div id="cartItemsContainer" class="flex-grow p-6 overflow-y-auto space-y-4">
+                    <!-- Dynamic Cart Items Injected Here -->
+                </div>
+
+                <!-- Drawer Footer & Summary -->
+                <div class="p-6 border-t border-nude-200 bg-nude-50 space-y-4">
+                    <div class="space-y-1.5 text-xs">
+                        <div class="flex justify-between text-gray-600">
+                            <span>Subtotal</span>
+                            <span id="cartSubtotal">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between text-gray-600">
+                            <span>Frete Estimado</span>
+                            <span id="cartShipping">R$ 0,00</span>
+                        </div>
+                        <div class="flex justify-between text-sm font-semibold text-charcoal pt-2 border-t border-nude-200">
+                            <span>Total</span>
+                            <span id="cartTotal" class="text-gold-600 text-base">R$ 0,00</span>
+                        </div>
+                    </div>
+
+                    <button onclick="openCheckoutModal()" class="w-full bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest py-3.5 rounded-full transition-all shadow-md">
+                        Finalizar Compra
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- PRODUCT DETAIL MODAL -->
+    <div id="productModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <div class="min-h-screen px-4 text-center flex items-center justify-center">
+            <div class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm transition-opacity" onclick="closeProductModal()"></div>
+            <div class="inline-block w-full max-w-2xl p-6 my-8 text-left transition-all transform bg-white shadow-2xl rounded-2xl relative z-10">
+                <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-charcoal z-20">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </button>
+                
+                <div id="productModalContent" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Dynamic Details Injected Here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHECKOUT SIMULATION MODAL -->
+    <div id="checkoutModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <div class="min-h-screen px-4 text-center flex items-center justify-center">
+            <div class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm transition-opacity" onclick="closeCheckoutModal()"></div>
+            <div class="inline-block w-full max-w-lg p-6 my-8 text-left transition-all transform bg-white shadow-2xl rounded-2xl relative z-10">
+                
+                <div class="flex items-center justify-between border-b border-nude-200 pb-4 mb-4">
+                    <h3 class="font-serif text-xl font-semibold text-charcoal">Checkout Seguro</h3>
+                    <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-charcoal">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)" class="space-y-4 text-xs">
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-1">Nome Completo</label>
+                        <input type="text" required placeholder="Ex: Maria Silva" class="w-full bg-nude-50 border border-nude-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-1">E-mail</label>
+                            <input type="email" required placeholder="maria@email.com" class="w-full bg-nude-50 border border-nude-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-1">Telefone / WhatsApp</label>
+                            <input type="tel" required placeholder="(11) 99999-8888" class="w-full bg-nude-50 border border-nude-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-1">Endereço de Entrega</label>
+                        <input type="text" required placeholder="Rua, Número, Bairro, Cidade - UF" class="w-full bg-nude-50 border border-nude-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                    </div>
+
+                    <div class="rounded-xl border border-nude-200 bg-nude-50 p-4 space-y-2">
+                        <p class="font-semibold text-charcoal">Finalize seu pedido pelo WhatsApp</p>
+                        <p class="text-gray-600">Nenhum pagamento será realizado neste site. Ao continuar, você será direcionado ao WhatsApp da loja para confirmar o pedido, combinar a entrega e receber as instruções de pagamento diretamente com a vendedora.</p>
+                    </div>
+                    <div class="pt-2">
+                        <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest py-3.5 rounded-full transition-all shadow-md">
+                            Entrar em contato pelo WhatsApp <span id="checkoutTotalBtn"></span>
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- SUCCESS NOTIFICATION / CONFIRMATION MODAL -->
+    <div id="successModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <div class="min-h-screen px-4 text-center flex items-center justify-center">
+            <div class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm"></div>
+            <div class="inline-block w-full max-w-sm p-6 my-8 text-center transition-all transform bg-white shadow-2xl rounded-2xl relative z-10">
+                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="check-circle" class="w-10 h-10"></i>
+                </div>
+                <h3 class="font-serif text-2xl font-bold text-charcoal mb-2">Pedido Realizado!</h3>
+                <p class="text-xs text-gray-600 mb-6 leading-relaxed">Sua compra foi confirmada com sucesso. Enviamos os detalhes do rastreamento para o seu e-mail.</p>
+                <button onclick="closeSuccessModal()" class="w-full bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest py-3 rounded-full">
+                    Continuar Comprando
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- LOGIN DO PAINEL ADM -->
+    <div id="adminLoginModal" class="fixed inset-0 z-[70] bg-charcoal/70 flex items-center justify-center p-4 hidden">
+        <form onsubmit="submitAdminLogin(event)" class="bg-white rounded-2xl p-6 w-full max-w-sm space-y-4 shadow-2xl">
+            <h2 class="font-serif text-xl font-bold">Acesso administrativo</h2>
+            <p class="text-sm text-gray-600">Digite a senha para abrir o painel.</p>
+            <input id="adminPasswordInput" type="password" required autocomplete="current-password" placeholder="Senha do administrador" class="w-full border rounded-lg p-3">
+            <p id="adminLoginError" class="hidden text-sm text-red-600">Senha incorreta.</p>
+            <div class="flex gap-2"><button type="button" onclick="closeAdminLogin()" class="flex-1 border rounded-lg p-2">Cancelar</button><button type="submit" class="flex-1 bg-gold-500 text-white rounded-lg p-2">Entrar</button></div>
+        </form>
+    </div>
+
+    <!-- ADMIN PRODUCT EDIT/CREATE MODAL -->
+    <div id="adminProductModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
+        <div class="min-h-screen px-4 text-center flex items-center justify-center">
+            <div class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm" onclick="closeAdminProductModal()"></div>
+            <div class="inline-block w-full max-w-lg p-6 my-8 text-left transition-all transform bg-white shadow-2xl rounded-2xl relative z-10">
+                
+                <div class="flex items-center justify-between border-b border-gray-200 pb-4 mb-4">
+                    <h3 id="adminModalTitle" class="font-serif text-xl font-semibold text-charcoal">Cadastrar Novo Produto</h3>
+                    <button onclick="closeAdminProductModal()" class="text-gray-400 hover:text-charcoal">
+                        <i data-lucide="x" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <form id="adminProductForm" onsubmit="handleSaveProduct(event)" class="space-y-4 text-xs">
+                    <input type="hidden" id="adminProdId">
+
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-1">Nome da Joia</label>
+                        <input type="text" id="adminProdName" required placeholder="Ex: Anel Solitário Ouro 18k" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-1">Categoria</label>
+                            <select id="adminProdCategory" required class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                                <option value="Aneis">Anéis</option>
+                                <option value="Colares">Colares</option>
+                                <option value="Brincos">Brincos</option>
+                                <option value="Pulseiras">Pulseiras</option>
+                                <option value="Coleções">Coleções</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-1">Preço (R$)</label>
+                            <input type="number" step="0.01" id="adminProdPrice" required placeholder="299.90" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-1">Estoque Inicial</label>
+                            <input type="number" id="adminProdStock" required placeholder="10" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                        </div>
+                        <div>
+                            <label class="block font-medium text-gray-700 mb-1">Imagem do produto (upload)</label>
+                            <input type="file" id="adminProdImageFile" accept="image/*" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                            <input type="hidden" id="adminProdImage">
+                            <img id="adminProdImagePreview" class="hidden mt-2 h-24 w-24 rounded-lg object-cover border" alt="Prévia da imagem">
+                            <p class="text-[10px] text-gray-500 mt-1">Selecione uma imagem do computador. Imagens grandes podem exceder o armazenamento do navegador.</p>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block font-medium text-gray-700 mb-1">Descrição Detalhada</label>
+                        <textarea id="adminProdDescription" rows="3" required placeholder="Elegante anel feito à mão..." class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500"></textarea>
+                    </div>
+
+                    <div class="pt-2 flex justify-end gap-2">
+                        <button type="button" onclick="closeAdminProductModal()" class="px-4 py-2 text-gray-600 hover:bg-gray-100 rounded-lg">Cancelar</button>
+                        <button type="submit" class="bg-gold-500 hover:bg-gold-600 text-white font-semibold px-5 py-2 rounded-lg transition-colors">Salvar Produto</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT APPLICATION LOGIC -->
+    <script>
+        // Initial Mock Products Data
+        const INITIAL_PRODUCTS = [
+            {
+                id: 1,
+                name: "Anel Solitário Aurora Dourada",
+                category: "Aneis",
+                price: 389.00,
+                stock: 12,
+                image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=800",
+                description: "Design clássico e atemporal banhado a ouro 18k com zircônia premium lapidação brilhante."
+            },
+            {
+                id: 2,
+                name: "Colar Gravatinha Raio de Sol",
+                category: "Colares",
+                price: 249.90,
+                stock: 8,
+                image: "https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=800",
+                description: "Colar gravatinha delicado e versátil. Regulável e ideal para compor mixes sofisticados."
+            },
+            {
+                id: 3,
+                name: "Brincos Argola Geométrica",
+                category: "Brincos",
+                price: 189.00,
+                stock: 15,
+                image: "https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=800",
+                description: "Argolas leves com estrutura geométrica moderna e acabamento de alto brilho."
+            },
+            {
+                id: 4,
+                name: "Pulseira Elos Duplos Imperial",
+                category: "Pulseiras",
+                price: 310.00,
+                stock: 6,
+                image: "https://images.unsplash.com/photo-1611591475170-be63595e0939?auto=format&fit=crop&q=80&w=800",
+                description: "Pulseira marcante em elos duplos encorpados com fecho boia de máxima segurança."
+            },
+            {
+                id: 5,
+                name: "Gargantilha Choker Perlas Solis",
+                category: "Coleções",
+                price: 420.00,
+                stock: 5,
+                image: "https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&q=80&w=800",
+                description: "Choker exclusiva combinando pérolas naturais de água doce e detalhes folheados a ouro."
+            },
+            {
+                id: 6,
+                name: "Anel Duo Pavê Zircônias",
+                category: "Aneis",
+                price: 279.00,
+                stock: 10,
+                image: "https://images.unsplash.com/photo-1603561591411-07134e71a2a9?auto=format&fit=crop&q=80&w=800",
+                description: "Anel duplo cravado com microzircônias que capturam a luz de qualquer ângulo."
+            }
+        ];
+
+        // Global State Variables
+        let products = JSON.parse(localStorage.getItem('rds_products')) || INITIAL_PRODUCTS;
+        let cart = JSON.parse(localStorage.getItem('rds_cart')) || [];
+        let orders = JSON.parse(localStorage.getItem('rds_orders')) || [
+            {
+                id: 'ORD-9821',
+                customer: 'Camila Rocha',
+                itemsCount: 2,
+                payment: 'PIX',
+                total: 638.90,
+                status: 'Pago',
+                date: '2026-10-18'
+            }
+        ];
+        
+        let currentCategory = 'all';
+        let currentSort = 'default';
+        let currentSearchQuery = '';
+        let currentView = 'store'; // 'store' or 'admin'
+        const ADMIN_PASSWORD = 'RaioSol@2026'; // Altere esta senha no código
+        let adminAuthenticated = false;
+        let storeSettings = JSON.parse(localStorage.getItem('rds_payment_settings') || '{}');
+
+        // Save State to LocalStorage
+        function saveData() {
+            localStorage.setItem('rds_products', JSON.stringify(products));
+            localStorage.setItem('rds_cart', JSON.stringify(cart));
+            localStorage.setItem('rds_orders', JSON.stringify(orders));
+        }
+
+        // Initialize Icons & App on Load
+        window.addEventListener('DOMContentLoaded', () => {
+            renderProducts();
+            updateCartUI();
+            renderAdminDashboard();
+            updatePixCheckout();
+            lucide.createIcons();
+        });
+
+        // Toggle View: Client Store vs ADM Panel
+        function toggleAdminView() {
+            if (currentView === 'admin') { adminAuthenticated = false; switchView('store'); return; }
+            document.getElementById('adminLoginModal').classList.remove('hidden');
+            document.getElementById('adminPasswordInput').value = '';
+            document.getElementById('adminLoginError').classList.add('hidden');
+            document.getElementById('adminPasswordInput').focus();
+        }
+        function closeAdminLogin() { document.getElementById('adminLoginModal').classList.add('hidden'); }
+        function submitAdminLogin(e) {
+            e.preventDefault();
+            if (document.getElementById('adminPasswordInput').value !== ADMIN_PASSWORD) {
+                document.getElementById('adminLoginError').classList.remove('hidden'); return;
+            }
+            adminAuthenticated = true; closeAdminLogin(); switchView('admin'); loadPaymentSettings();
+        }
+
+        function switchView(view) {
+            currentView = view;
+            const clientSec = document.getElementById('clientView');
+            const adminSec = document.getElementById('adminView');
+            const switchText = document.getElementById('viewSwitchText');
+
+            if (view === 'admin' && !adminAuthenticated) { currentView = 'store'; return; }
+            if (view === 'admin') {
+                clientSec.classList.add('hidden');
+                adminSec.classList.remove('hidden');
+                switchText.textContent = 'Ver Loja';
+                renderAdminDashboard();
+            } else {
+                adminSec.classList.add('hidden');
+                clientSec.classList.remove('hidden');
+                switchText.textContent = 'Painel ADM';
+                renderProducts();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // ==========================================
+        // STOREFRONT LOGIC (CLIENT VIEW)
+        // ==========================================
+
+        function filterCategory(cat) {
+            currentCategory = cat;
+            
+            // Update filter buttons styling
+            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+                if (btn.dataset.cat === cat) {
+                    btn.classList.add('bg-gold-500', 'text-white');
+                    btn.classList.remove('hover:bg-nude-100', 'text-gray-700');
+                } else {
+                    btn.classList.remove('bg-gold-500', 'text-white');
+                    btn.classList.add('hover:bg-nude-100', 'text-gray-700');
+                }
+            });
+
+            const filterLabel = document.getElementById('currentFilterText');
+            filterLabel.textContent = `Exibindo: ${cat === 'all' ? 'Todas as Joias' : cat}`;
+
+            renderProducts();
+        }
+
+        function handleSearch() {
+            currentSearchQuery = document.getElementById('searchInput').value.toLowerCase();
+            renderProducts();
+        }
+
+        function handleSearchMobile() {
+            currentSearchQuery = document.getElementById('mobileSearchInput').value.toLowerCase();
+            renderProducts();
+        }
+
+        function applySorting() {
+            currentSort = document.getElementById('sortSelect').value;
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+
+            let filtered = products.filter(p => {
+                const matchesCat = currentCategory === 'all' || p.category === currentCategory;
+                const matchesSearch = p.name.toLowerCase().includes(currentSearchQuery) || p.description.toLowerCase().includes(currentSearchQuery);
+                return matchesCat && matchesSearch;
+            });
+
+            // Sorting
+            if (currentSort === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+            if (currentSort === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+            if (currentSort === 'name') filtered.sort((a,b) => a.name.localeCompare(b.name));
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full text-center py-12">
+                        <i data-lucide="gem" class="w-12 h-12 mx-auto text-gray-300 mb-3"></i>
+                        <p class="text-gray-500 font-medium text-sm">Nenhuma joia encontrada nesta categoria.</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            filtered.forEach(p => {
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl overflow-hidden border border-nude-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-64 overflow-hidden bg-nude-100 cursor-pointer" onclick="openProductDetail(${p.id})">
+                            <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x600/FAF8F5/D4AF37?text=Raio+de+Sol'">
+                            <span class="absolute top-3 left-3 bg-white/80 backdrop-blur-md text-charcoal text-[10px] uppercase tracking-widest font-semibold px-2.5 py-1 rounded-full">${p.category}</span>
+                        </div>
+                        <div class="p-5">
+                            <h3 onclick="openProductDetail(${p.id})" class="font-serif text-base font-semibold text-charcoal hover:text-gold-600 transition-colors cursor-pointer line-clamp-1">${p.name}</h3>
+                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">${p.description}</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0 flex items-center justify-between">
+                        <div>
+                            <span class="text-[10px] text-gray-400 block uppercase">Preço</span>
+                            <span class="font-semibold text-gold-600 text-lg">R$ ${p.price.toFixed(2).replace('.', ',')}</span>
+                        </div>
+                        <button onclick="addToCart(${p.id})" class="bg-nude-100 hover:bg-gold-500 text-charcoal hover:text-white p-3 rounded-full transition-colors duration-300 shadow-sm">
+                            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                        </button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            lucide.createIcons();
+        }
+
+        // ==========================================
+        // CART LOGIC
+        // ==========================================
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            if (!product) return;
+
+            const existingItem = cart.find(item => item.id === productId);
+            if (existingItem) {
+                existingItem.quantity += 1;
+            } else {
+                cart.push({ ...product, quantity: 1 });
+            }
+
+            saveData();
+            updateCartUI();
+            toggleCartDrawer(true);
+        }
+
+        function updateCartQuantity(productId, delta) {
+            const item = cart.find(i => i.id === productId);
+            if (!item) return;
+
+            item.quantity += delta;
+            if (item.quantity <= 0) {
+                cart = cart.filter(i => i.id !== productId);
+            }
+
+            saveData();
+            updateCartUI();
+        }
+
+        function removeFromCart(productId) {
+            cart = cart.filter(i => i.id !== productId);
+            saveData();
+            updateCartUI();
+        }
+
+        function updateCartUI() {
+            const cartBadge = document.getElementById('cartBadge');
+            const itemsContainer = document.getElementById('cartItemsContainer');
+            const subtotalEl = document.getElementById('cartSubtotal');
+            const shippingEl = document.getElementById('cartShipping');
+            const totalEl = document.getElementById('cartTotal');
+
+            const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+            cartBadge.textContent = totalItems;
+            
+            if (totalItems > 0) {
+                cartBadge.classList.remove('scale-0');
+                cartBadge.classList.add('scale-100');
+            } else {
+                cartBadge.classList.remove('scale-100');
+                cartBadge.classList.add('scale-0');
+            }
+
+            // Render List Items
+            itemsContainer.innerHTML = '';
+            let subtotal = 0;
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = `
+                    <div class="text-center py-12 text-gray-400">
+                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                        <p class="text-xs uppercase tracking-wider">Seu carrinho está vazio</p>
+                    </div>
+                `;
+            } else {
+                cart.forEach(item => {
+                    subtotal += item.price * item.quantity;
+                    const itemEl = document.createElement('div');
+                    itemEl.className = "flex items-center space-x-4 border-b border-nude-100 pb-4";
+                    itemEl.innerHTML = `
+                        <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg bg-nude-100">
+                        <div class="flex-grow">
+                            <h4 class="text-xs font-semibold text-charcoal">${item.name}</h4>
+                            <p class="text-xs text-gold-600 font-semibold mt-0.5">R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</p>
+                            <div class="flex items-center space-x-2 mt-2">
+                                <button onclick="updateCartQuantity(${item.id}, -1)" class="w-5 h-5 bg-nude-100 rounded text-xs flex items-center justify-center font-bold text-gray-600 hover:bg-gold-500 hover:text-white">-</button>
+                                <span class="text-xs font-medium">${item.quantity}</span>
+                                <button onclick="updateCartQuantity(${item.id}, 1)" class="w-5 h-5 bg-nude-100 rounded text-xs flex items-center justify-center font-bold text-gray-600 hover:bg-gold-500 hover:text-white">+</button>
+                            </div>
+                        </div>
+                        <button onclick="removeFromCart(${item.id})" class="text-gray-400 hover:text-red-500 p-1">
+                            <i data-lucide="trash-2" class="w-4 h-4"></i>
+                        </button>
+                    `;
+                    itemsContainer.appendChild(itemEl);
+                });
+            }
+
+            const shipping = subtotal > 299 || subtotal === 0 ? 0 : 25.00;
+            const total = subtotal + shipping;
+
+            subtotalEl.textContent = `R$ ${subtotal.toFixed(2).replace('.', ',')}`;
+            shippingEl.textContent = shipping === 0 ? 'GRÁTIS' : `R$ ${shipping.toFixed(2).replace('.', ',')}`;
+            totalEl.textContent = `R$ ${total.toFixed(2).replace('.', ',')}`;
+
+            lucide.createIcons();
+        }
+
+        function toggleCartDrawer(open) {
+            const drawer = document.getElementById('cartDrawer');
+            if (open) drawer.classList.remove('hidden');
+            else drawer.classList.add('hidden');
+        }
+
+        // ==========================================
+        // PRODUCT DETAILS MODAL
+        // ==========================================
+
+        function openProductDetail(productId) {
+            const p = products.find(prod => prod.id === productId);
+            if (!p) return;
+
+            const modalContent = document.getElementById('productModalContent');
+            modalContent.innerHTML = `
+                <div class="h-72 rounded-xl overflow-hidden bg-nude-100">
+                    <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
+                </div>
+                <div class="flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] text-gold-600 uppercase tracking-widest font-semibold">${p.category}</span>
+                        <h2 class="font-serif text-2xl font-bold text-charcoal mt-1">${p.name}</h2>
+                        <p class="text-xl font-semibold text-gold-600 mt-2">R$ ${p.price.toFixed(2).replace('.', ',')}</p>
+                        <p class="text-xs text-gray-600 mt-4 leading-relaxed">${p.description}</p>
+                        <div class="mt-4 text-xs text-gray-500">
+                            <span class="block">✓ Banhado a Ouro 18k com Duplo Selamento</span>
+                            <span class="block">✓ Hipoalergênico (Sem Níquel)</span>
+                            <span class="block mt-1 text-emerald-600 font-medium">Disponível em estoque (${p.stock} unidades)</span>
+                        </div>
+                    </div>
+                    <button onclick="addToCart(${p.id}); closeProductModal();" class="mt-6 w-full bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest py-3.5 rounded-full transition-all">
+                        Adicionar ao Carrinho
+                    </button>
+                </div>
+            `;
+
+            document.getElementById('productModal').classList.remove('hidden');
+            lucide.createIcons();
+        }
+
+        function closeProductModal() {
+            document.getElementById('productModal').classList.add('hidden');
+        }
+
+        // ==========================================
+        // CHECKOUT & SUCCESS MODAL
+        // ==========================================
+
+        function openCheckoutModal() {
+            if (cart.length === 0) {
+                alert('Seu carrinho está vazio!');
+                return;
+            }
+            toggleCartDrawer(false);
+
+            const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+            document.getElementById('checkoutTotalBtn').textContent = `(R$ ${total.toFixed(2).replace('.', ',')})`;
+
+            updatePixCheckout();
+            document.getElementById('checkoutModal').classList.remove('hidden');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkoutModal').classList.add('hidden');
+        }
+
+        function handleCheckoutSubmit(e) {
+            e.preventDefault();
+            const form = e.target;
+            const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
+            const customer = form.elements[0].value;
+            const email = form.elements[1].value;
+            const phone = form.elements[2].value;
+            const address = form.elements[3].value;
+            const orderId = 'ORD-' + Date.now().toString().slice(-6);
+            const itemsText = cart.map(i => `${i.quantity}x ${i.name} - R$ ${(i.price*i.quantity).toFixed(2).replace('.', ',')}`).join('\n');
+            const message = `Olá! Tenho interesse em finalizar o pedido ${orderId} na Raio de Sol.\nCliente: ${customer}\nE-mail: ${email}\nTelefone: ${phone}\nEndereço de entrega: ${address}\nItens:\n${itemsText}\nTotal dos produtos: R$ ${total.toFixed(2).replace('.', ',')}\nAinda não realizei nenhum pagamento. Por favor, entre em contato para confirmar disponibilidade, frete e combinar a forma de pagamento.`;
+            const waNumber = (storeSettings.whatsapp || '5511998876655').replace(/\D/g, '');
+            const newOrder = { id: orderId, customer, itemsCount: cart.reduce((sum, i) => sum + i.quantity, 0), payment: 'A combinar pelo WhatsApp', total, status: 'Aguardando contato', date: new Date().toISOString().split('T')[0] };
+            orders.unshift(newOrder); cart = []; saveData(); updateCartUI(); renderAdminDashboard();
+            closeCheckoutModal();
+            document.getElementById('successModal').querySelector('h3').textContent = 'Pedido preparado!';
+            document.getElementById('successModal').querySelector('p').textContent = 'O WhatsApp será aberto para você conversar com a loja e combinar o pagamento. Nenhum pagamento foi realizado pelo site.';
+            document.getElementById('successModal').classList.remove('hidden');
+            window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        function loadPaymentSettings() {
+            document.getElementById('storeWhatsapp').value = storeSettings.whatsapp || '5511998876655';
+            document.getElementById('storePixKey').value = storeSettings.pixKey || '';
+            const preview = document.getElementById('adminPixQrPreview');
+            if (storeSettings.pixQr) { preview.src = storeSettings.pixQr; preview.classList.remove('hidden'); }
+            else preview.classList.add('hidden');
+            updatePixCheckout();
+        }
+        function savePaymentSettings() {
+            const file = document.getElementById('storePixQrFile').files[0];
+            const finish = (qr) => {
+                storeSettings.whatsapp = document.getElementById('storeWhatsapp').value.trim();
+                storeSettings.pixKey = document.getElementById('storePixKey').value.trim();
+                if (qr) storeSettings.pixQr = qr;
+                localStorage.setItem('rds_payment_settings', JSON.stringify(storeSettings));
+                loadPaymentSettings();
+                alert('Configurações salvas neste navegador.');
+            };
+            if (file) {
+                if (!file.type.startsWith('image/') || file.size > 1500000) { alert('Envie uma imagem de até 1,5 MB.'); return; }
+                const reader = new FileReader(); reader.onload = () => finish(reader.result); reader.readAsDataURL(file);
+            } else finish(null);
+        }
+        function updatePixCheckout() {
+            const img = document.getElementById('pixQrDisplay');
+            const key = document.getElementById('pixKeyDisplay');
+            if (!img || !key) return;
+            if (storeSettings.pixQr) { img.src = storeSettings.pixQr; img.classList.remove('hidden'); }
+            else img.classList.add('hidden');
+            key.textContent = storeSettings.pixKey ? `Chave PIX: ${storeSettings.pixKey}` : 'A loja ainda não cadastrou a chave PIX.';
+        }
+        function copyPixKey() {
+            if (!storeSettings.pixKey) { alert('A loja ainda não cadastrou a chave PIX.'); return; }
+            navigator.clipboard.writeText(storeSettings.pixKey).then(() => alert('Chave PIX copiada!')).catch(() => alert('Não foi possível copiar automaticamente. Chave: ' + storeSettings.pixKey));
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('successModal').classList.add('hidden');
+        }
+
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // ==========================================
+        // ADMIN PANEL LOGIC (CRUD & ORDERS)
+        // ==========================================
+
+        function switchAdminTab(tab) {
+            const pTab = document.getElementById('adminTabProducts');
+            const oTab = document.getElementById('adminTabOrders');
+            const pBtn = document.getElementById('tabProductsBtn');
+            const oBtn = document.getElementById('tabOrdersBtn');
+
+            if (tab === 'products') {
+                pTab.classList.remove('hidden');
+                oTab.classList.add('hidden');
+                pBtn.className = "pb-3 border-b-2 border-gold-500 text-gold-600 font-semibold flex items-center gap-2";
+                oBtn.className = "pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center gap-2";
+            } else {
+                pTab.classList.add('hidden');
+                oTab.classList.remove('hidden');
+                oBtn.className = "pb-3 border-b-2 border-gold-500 text-gold-600 font-semibold flex items-center gap-2";
+                pBtn.className = "pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center gap-2";
+            }
+        }
+
+        function renderAdminDashboard() {
+            // Update KPIs
+            const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
+            const totalOrdersCount = orders.length;
+            const avgTicket = totalOrdersCount > 0 ? totalRevenue / totalOrdersCount : 0;
+
+            document.getElementById('kpiRevenue').textContent = `R$ ${totalRevenue.toFixed(2).replace('.', ',')}`;
+            document.getElementById('kpiOrders').textContent = totalOrdersCount;
+            document.getElementById('kpiProducts').textContent = products.length;
+            document.getElementById('kpiAvgTicket').textContent = `R$ ${avgTicket.toFixed(2).replace('.', ',')}`;
+
+            // Render Products Table
+            const prodTable = document.getElementById('adminProductsTable');
+            prodTable.innerHTML = '';
+            products.forEach(p => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-4 flex items-center gap-3">
+                        <img src="${p.image}" class="w-10 h-10 object-cover rounded-lg bg-gray-100">
+                        <span class="font-semibold text-gray-800">${p.name}</span>
+                    </td>
+                    <td class="p-4 text-gray-600">${p.category}</td>
+                    <td class="p-4 font-semibold text-gold-600">R$ ${p.price.toFixed(2).replace('.', ',')}</td>
+                    <td class="p-4 text-gray-600">${p.stock} un</td>
+                    <td class="p-4 text-right space-x-2">
+                        <button onclick="editProduct(${p.id})" class="text-blue-600 hover:text-blue-800 font-medium">Editar</button>
+                        <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:text-red-700 font-medium">Excluir</button>
+                    </td>
+                `;
+                prodTable.appendChild(tr);
+            });
+
+            // Render Orders Table
+            const ordersTable = document.getElementById('adminOrdersTable');
+            ordersTable.innerHTML = '';
+            orders.forEach(o => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td class="p-4 font-mono font-semibold text-gray-700">${o.id}</td>
+                    <td class="p-4 font-medium text-gray-800">${o.customer}</td>
+                    <td class="p-4 text-gray-600">${o.itemsCount} itens</td>
+                    <td class="p-4 text-gray-600">${o.payment}</td>
+                    <td class="p-4 font-semibold text-gold-600">R$ ${o.total.toFixed(2).replace('.', ',')}</td>
+                    <td class="p-4">
+                        <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase ${
+                            o.status === 'Pago' ? 'bg-emerald-100 text-emerald-700' :
+                            o.status === 'Enviado' ? 'bg-blue-100 text-blue-700' :
+                            o.status === 'Entregue' ? 'bg-purple-100 text-purple-700' : 'bg-yellow-100 text-yellow-700'
+                        }">${o.status}</span>
+                    </td>
+                    <td class="p-4 text-right">
+                        <select onchange="updateOrderStatus('${o.id}', this.value)" class="bg-gray-50 border border-gray-200 rounded p-1 text-xs">
+                            <option value="Pendente" ${o.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
+                            <option value="Pago" ${o.status === 'Pago' ? 'selected' : ''}>Pago</option>
+                            <option value="Enviado" ${o.status === 'Enviado' ? 'selected' : ''}>Enviado</option>
+                            <option value="Entregue" ${o.status === 'Entregue' ? 'selected' : ''}>Entregue</option>
+                        </select>
+                    </td>
+                `;
+                ordersTable.appendChild(tr);
+            });
+
+            lucide.createIcons();
+        }
+
+        document.addEventListener('change', function(e) {
+            if (e.target.id === 'adminProdImageFile' && e.target.files[0]) {
+                const f = e.target.files[0];
+                if (!f.type.startsWith('image/')) { alert('Selecione um arquivo de imagem.'); e.target.value=''; return; }
+                if (f.size > 1500000) { alert('A imagem deve ter até 1,5 MB.'); e.target.value=''; return; }
+                const r = new FileReader(); r.onload = () => { const p=document.getElementById('adminProdImagePreview'); p.src=r.result; p.classList.remove('hidden'); }; r.readAsDataURL(f);
+            }
+        });
+
+        // Product CRUD Operations
+        function openProductModal() {
+            document.getElementById('adminModalTitle').textContent = 'Cadastrar Novo Produto';
+            document.getElementById('adminProductForm').reset();
+            document.getElementById('adminProdId').value = '';
+            document.getElementById('adminProductModal').classList.remove('hidden');
+        }
+
+        function closeAdminProductModal() {
+            document.getElementById('adminProductModal').classList.add('hidden');
+        }
+
+        function editProduct(id) {
+            const p = products.find(prod => prod.id === id);
+            if (!p) return;
+
+            document.getElementById('adminModalTitle').textContent = 'Editar Produto';
+            document.getElementById('adminProdId').value = p.id;
+            document.getElementById('adminProdName').value = p.name;
+            document.getElementById('adminProdCategory').value = p.category;
+            document.getElementById('adminProdPrice').value = p.price;
+            document.getElementById('adminProdStock').value = p.stock;
+            document.getElementById('adminProdImage').value = p.image;
+            document.getElementById('adminProdImageFile').value = '';
+            const preview = document.getElementById('adminProdImagePreview');
+            preview.src = p.image; preview.classList.remove('hidden');
+            document.getElementById('adminProdDescription').value = p.description;
+
+            document.getElementById('adminProductModal').classList.remove('hidden');
+        }
+
+        function deleteProduct(id) {
+            if (confirm('Tem certeza que deseja excluir esta joia do catálogo?')) {
+                products = products.filter(p => p.id !== id);
+                saveData();
+                renderAdminDashboard();
+            }
+        }
+
+        function handleSaveProduct(e) {
+            e.preventDefault();
+            const file = document.getElementById('adminProdImageFile').files[0];
+            if (file) {
+                if (file.size > 1500000) { alert('Escolha uma imagem de até 1,5 MB para evitar exceder o armazenamento do navegador.'); return; }
+                const reader = new FileReader();
+                reader.onload = () => { document.getElementById('adminProdImage').value = reader.result; saveProductData(); };
+                reader.readAsDataURL(file);
+                return;
+            }
+            if (!document.getElementById('adminProdImage').value) { alert('Selecione uma imagem do produto.'); return; }
+            saveProductData();
+        }
+        function saveProductData() {
+            const id = document.getElementById('adminProdId').value;
+            const name = document.getElementById('adminProdName').value;
+            const category = document.getElementById('adminProdCategory').value;
+            const price = parseFloat(document.getElementById('adminProdPrice').value);
+            const stock = parseInt(document.getElementById('adminProdStock').value);
+            const image = document.getElementById('adminProdImage').value;
+            const description = document.getElementById('adminProdDescription').value;
+
+            if (id) {
+                // Update Existing
+                const index = products.findIndex(p => p.id == id);
+                if (index !== -1) {
+                    products[index] = { id: parseInt(id), name, category, price, stock, image, description };
+                }
+            } else {
+                // Create New
+                const newProd = {
+                    id: Date.now(),
+                    name,
+                    category,
+                    price,
+                    stock,
+                    image,
+                    description
+                };
+                products.push(newProd);
+            }
+
+            saveData();
+            closeAdminProductModal();
+            renderAdminDashboard();
+        }
+
+        function updateOrderStatus(orderId, newStatus) {
+            const order = orders.find(o => o.id === orderId);
+            if (order) {
+                order.status = newStatus;
+                saveData();
+                renderAdminDashboard();
+            }
+        }
+    </script>
+</body>
+</html>
