@@ -1099,7 +1099,7 @@
             const orderId = 'ORD-' + Date.now().toString().slice(-6);
             const itemsText = cart.map(i => `${i.quantity}x ${i.name} - R$ ${(i.price*i.quantity).toFixed(2).replace('.', ',')}`).join('\n');
             const message = `Olá! Tenho interesse em finalizar o pedido ${orderId} na Raio de Sol.\nCliente: ${customer}\nE-mail: ${email}\nTelefone: ${phone}\nEndereço de entrega: ${address}\nItens:\n${itemsText}\nTotal dos produtos: R$ ${total.toFixed(2).replace('.', ',')}\nAinda não realizei nenhum pagamento. Por favor, entre em contato para confirmar disponibilidade, frete e combinar a forma de pagamento.`;
-            const waNumber = (storeSettings.whatsapp || '5511998876655').replace(/\D/g, '');
+            const waNumber = (storeSettings.whatsapp || '5531984339027').replace(/\D/g, '');
             const newOrder = { id: orderId, customer, itemsCount: cart.reduce((sum, i) => sum + i.quantity, 0), payment: 'A combinar pelo WhatsApp', total, status: 'Aguardando contato', date: new Date().toISOString().split('T')[0] };
             orders.unshift(newOrder); cart = []; saveData(); updateCartUI(); renderAdminDashboard();
             closeCheckoutModal();
