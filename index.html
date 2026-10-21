@@ -52,7 +52,8 @@
         }
         /* Custom scrollbar */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
+            height: 6px;
         }
         ::-webkit-scrollbar-track {
             background: #F7F3ED;
@@ -64,33 +65,41 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #C5A059;
         }
+        /* Hide scrollbar for clean horizontal swipes */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between selection:bg-gold-300 selection:text-charcoal">
+<body class="min-h-screen flex flex-col justify-between selection:bg-gold-300 selection:text-charcoal overflow-x-hidden">
 
     <!-- TOP ANNOUNCEMENT BAR -->
-    <div class="bg-charcoal text-gold-300 text-xs py-2 text-center tracking-widest uppercase font-light">
-        ✨ Frete Grátis para todo o Brasil em compras acima de R$ 299 | Parcele em até 6x sem juros ✨
+    <div class="bg-charcoal text-gold-300 text-[10px] sm:text-xs py-2 px-4 text-center tracking-wider sm:tracking-widest uppercase font-light leading-tight">
+        ✨ Frete Grátis acima de R$ 299 | Parcele em até 6x sem juros ✨
     </div>
 
     <!-- HEADER / NAVIGATION -->
-    <header class="sticky top-0 z-40 bg-nude-50/90 backdrop-blur-md border-b border-nude-200 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-20">
+    <header class="sticky top-0 z-40 bg-nude-50/95 backdrop-blur-md border-b border-nude-200 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16 sm:h-20">
                 
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center cursor-pointer" onclick="switchView('store')">
-                    <div class="p-2 rounded-full bg-gold-100 mr-2 text-gold-600">
-                        <i data-lucide="sun" class="w-6 h-6 animate-spin-slow"></i>
+                    <div class="p-1.5 sm:p-2 rounded-full bg-gold-100 mr-2 text-gold-600">
+                        <i data-lucide="sun" class="w-5 h-5 sm:w-6 sm:h-6 animate-spin-slow"></i>
                     </div>
                     <div>
-                        <span class="font-serif text-2xl font-bold tracking-wider text-charcoal block leading-none">RAIO DE SOL</span>
-                        <span class="text-[9px] tracking-[0.25em] text-gold-600 uppercase font-medium block mt-1">Joias & Semijoias</span>
+                        <span class="font-serif text-lg sm:text-2xl font-bold tracking-wider text-charcoal block leading-none">RAIO DE SOL</span>
+                        <span class="text-[8px] sm:text-[9px] tracking-[0.2em] sm:tracking-[0.25em] text-gold-600 uppercase font-medium block mt-0.5 sm:mt-1">Joias & Semijoias</span>
                     </div>
                 </div>
 
                 <!-- Navigation Links (Desktop) -->
-                <nav class="hidden md:flex space-x-8 text-xs font-medium uppercase tracking-widest">
+                <nav class="hidden md:flex space-x-6 lg:space-x-8 text-xs font-medium uppercase tracking-widest">
                     <button onclick="filterCategory('all')" class="hover:text-gold-600 transition-colors">Início</button>
                     <button onclick="filterCategory('Aneis')" class="hover:text-gold-600 transition-colors">Anéis</button>
                     <button onclick="filterCategory('Colares')" class="hover:text-gold-600 transition-colors">Colares</button>
@@ -100,44 +109,47 @@
                 </nav>
 
                 <!-- Action Controls -->
-                <div class="flex items-center space-x-4">
-                    <!-- Search Input Box -->
-                    <div class="relative hidden sm:block w-48 lg:w-64">
-                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Buscar joia..." class="w-full bg-white text-xs pl-8 pr-4 py-2 rounded-full border border-nude-200 focus:outline-none focus:border-gold-500 transition-colors">
+                <div class="flex items-center space-x-1.5 sm:space-x-3">
+                    <!-- Search Input Box (Desktop) -->
+                    <div class="relative hidden sm:block w-36 md:w-48 lg:w-64">
+                        <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Buscar joia..." class="w-full bg-white text-xs pl-8 pr-3 py-2 rounded-full border border-nude-200 focus:outline-none focus:border-gold-500 transition-colors">
                         <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-2.5 top-2.5"></i>
                     </div>
 
                     <!-- Cart Toggle Button -->
-                    <button id="cartBtn" onclick="toggleCartDrawer(true)" class="relative p-2 text-charcoal hover:text-gold-600 transition-colors">
-                        <i data-lucide="shopping-bag" class="w-6 h-6"></i>
-                        <span id="cartBadge" class="absolute top-0 right-0 bg-gold-500 text-white text-[10px] font-bold w-5 h-5 rounded-full flex items-center justify-center border-2 border-white transform translate-x-1 -translate-y-1 scale-0 transition-transform duration-200">0</span>
+                    <button id="cartBtn" onclick="toggleCartDrawer(true)" class="relative p-2 text-charcoal hover:text-gold-600 transition-colors" aria-label="Abrir carrinho">
+                        <i data-lucide="shopping-bag" class="w-5 h-5 sm:w-6 sm:h-6"></i>
+                        <span id="cartBadge" class="absolute top-0 right-0 bg-gold-500 text-white text-[9px] sm:text-[10px] font-bold w-4 h-4 sm:w-5 sm:h-5 rounded-full flex items-center justify-center border-2 border-white transform translate-x-1 -translate-y-1 scale-0 transition-transform duration-200">0</span>
                     </button>
 
                     <!-- View Switcher Button (Client vs ADM) -->
-                    <button onclick="toggleAdminView()" id="viewSwitchBtn" class="flex items-center gap-2 bg-charcoal text-gold-300 hover:bg-gold-600 hover:text-white px-4 py-2 rounded-full text-xs font-medium transition-all shadow-sm">
-                        <i data-lucide="shield-check" class="w-4 h-4"></i>
-                        <span id="viewSwitchText">Painel ADM</span>
+                    <button onclick="toggleAdminView()" id="viewSwitchBtn" class="flex items-center gap-1 sm:gap-2 bg-charcoal text-gold-300 hover:bg-gold-600 hover:text-white px-2.5 py-1.5 sm:px-4 sm:py-2 rounded-full text-xs font-medium transition-all shadow-sm">
+                        <i data-lucide="shield-check" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
+                        <span id="viewSwitchText" class="inline">ADM</span>
                     </button>
 
                     <!-- Mobile Menu Button -->
-                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-charcoal">
-                        <i data-lucide="menu" class="w-6 h-6"></i>
+                    <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-charcoal focus:outline-none" aria-label="Menu principal">
+                        <i data-lucide="menu" id="menuIcon" class="w-6 h-6"></i>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Mobile Navigation Menu -->
-        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-nude-200 px-4 pt-2 pb-4 space-y-2 text-sm font-medium">
-            <div class="mb-3">
-                <input type="text" id="mobileSearchInput" oninput="handleSearchMobile()" placeholder="Buscar joia..." class="w-full bg-nude-50 text-xs pl-8 pr-4 py-2 rounded-full border border-nude-200">
+        <!-- Mobile Navigation Menu Dropdown -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-nude-200 px-4 pt-3 pb-5 space-y-3 text-sm font-medium transition-all duration-300 shadow-lg">
+            <div class="relative">
+                <input type="text" id="mobileSearchInput" oninput="handleSearchMobile()" placeholder="Buscar joia..." class="w-full bg-nude-50 text-xs pl-9 pr-4 py-2.5 rounded-full border border-nude-200 focus:outline-none focus:border-gold-500">
+                <i data-lucide="search" class="w-4 h-4 text-gray-400 absolute left-3 top-3"></i>
             </div>
-            <button onclick="filterCategory('all'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Todas as Peças</button>
-            <button onclick="filterCategory('Aneis'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Anéis</button>
-            <button onclick="filterCategory('Colares'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Colares</button>
-            <button onclick="filterCategory('Brincos'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Brincos</button>
-            <button onclick="filterCategory('Pulseiras'); toggleMobileMenu();" class="block w-full text-left py-2 border-b border-nude-100">Pulseiras</button>
-            <button onclick="filterCategory('Coleções'); toggleMobileMenu();" class="block w-full text-left py-2">Coleções Exclusivas</button>
+            <div class="flex flex-col space-y-1 pt-1">
+                <button onclick="filterCategory('all'); toggleMobileMenu();" class="w-full text-left py-2 px-2 hover:bg-nude-50 rounded-lg text-charcoal font-semibold border-b border-nude-100 flex justify-between items-center">Todas as Peças <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i></button>
+                <button onclick="filterCategory('Aneis'); toggleMobileMenu();" class="w-full text-left py-2 px-2 hover:bg-nude-50 rounded-lg text-gray-700 border-b border-nude-100 flex justify-between items-center">Anéis <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i></button>
+                <button onclick="filterCategory('Colares'); toggleMobileMenu();" class="w-full text-left py-2 px-2 hover:bg-nude-50 rounded-lg text-gray-700 border-b border-nude-100 flex justify-between items-center">Colares <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i></button>
+                <button onclick="filterCategory('Brincos'); toggleMobileMenu();" class="w-full text-left py-2 px-2 hover:bg-nude-50 rounded-lg text-gray-700 border-b border-nude-100 flex justify-between items-center">Brincos <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i></button>
+                <button onclick="filterCategory('Pulseiras'); toggleMobileMenu();" class="w-full text-left py-2 px-2 hover:bg-nude-50 rounded-lg text-gray-700 border-b border-nude-100 flex justify-between items-center">Pulseiras <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i></button>
+                <button onclick="filterCategory('Coleções'); toggleMobileMenu();" class="w-full text-left py-2 px-2 hover:bg-nude-50 rounded-lg text-gray-700 flex justify-between items-center">Coleções Exclusivas <i data-lucide="chevron-right" class="w-4 h-4 text-gray-400"></i></button>
+            </div>
         </div>
     </header>
 
@@ -150,26 +162,26 @@
         <section id="clientView" class="block">
             
             <!-- Hero Banner -->
-            <div class="relative bg-nude-100 overflow-hidden py-16 sm:py-24 border-b border-nude-200">
+            <div class="relative bg-nude-100 overflow-hidden py-8 sm:py-16 md:py-24 border-b border-nude-200">
                 <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:16px_16px]"></div>
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-                        <div class="text-left space-y-6">
-                            <span class="inline-block text-gold-600 text-xs uppercase tracking-[0.3em] font-semibold bg-gold-100 px-3 py-1 rounded-full">Alta Joalheria & Elegância</span>
-                            <h1 class="font-serif text-4xl sm:text-5xl lg:text-6xl text-charcoal leading-tight">Ilumine sua essência com a luz de Raio de Sol</h1>
-                            <p class="text-gray-600 font-light text-base sm:text-lg max-w-lg">Design contemporâneo, acabamento impecável banhado a ouro 18k e prata 925. Descubra a coleção feita para realçar seu brilho único.</p>
-                            <div class="flex flex-wrap gap-4 pt-2">
-                                <a href="#catalog" class="bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest px-8 py-4 rounded-full transition-all transform hover:-translate-y-0.5 shadow-lg shadow-gold-500/20">Ver Coleção</a>
-                                <button onclick="filterCategory('Coleções')" class="border border-charcoal text-charcoal hover:bg-charcoal hover:text-white font-medium text-xs uppercase tracking-widest px-8 py-4 rounded-full transition-all">Lançamentos</button>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+                        <div class="text-left space-y-4 sm:space-y-6">
+                            <span class="inline-block text-gold-600 text-[10px] sm:text-xs uppercase tracking-[0.2em] sm:tracking-[0.3em] font-semibold bg-gold-100 px-3 py-1 rounded-full border border-gold-300/40">Alta Joalheria & Elegância</span>
+                            <h1 class="font-serif text-2xl sm:text-4xl lg:text-5xl text-charcoal leading-tight font-semibold">Ilumine sua essência com a luz de Raio de Sol</h1>
+                            <p class="text-gray-600 font-light text-sm sm:text-base md:text-lg max-w-lg leading-relaxed">Design contemporâneo, acabamento impecável banhado a ouro 18k e prata 925. Descubra a coleção feita para realçar seu brilho único.</p>
+                            <div class="flex flex-col sm:flex-row gap-3 pt-2">
+                                <a href="#catalog" class="w-full sm:w-auto text-center bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest px-8 py-3.5 sm:py-4 rounded-full transition-all shadow-md hover:shadow-lg shadow-gold-500/20">Ver Coleção</a>
+                                <button onclick="filterCategory('Coleções')" class="w-full sm:w-auto border border-charcoal text-charcoal hover:bg-charcoal hover:text-white font-medium text-xs uppercase tracking-widest px-8 py-3.5 sm:py-4 rounded-full transition-all">Lançamentos</button>
                             </div>
                         </div>
-                        <div class="relative">
-                            <div class="w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-2xl relative">
+                        <div class="relative mt-2 md:mt-0">
+                            <div class="w-full h-52 sm:h-80 md:h-96 rounded-2xl overflow-hidden shadow-xl sm:shadow-2xl relative">
                                 <img src="https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&q=80&w=1000" alt="Joias de Luxo Raio de Sol" class="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700">
-                                <div class="absolute inset-0 bg-gradient-to-t from-charcoal/40 to-transparent"></div>
-                                <div class="absolute bottom-6 left-6 text-white">
-                                    <p class="font-serif italic text-lg">Coleção Solstice '26</p>
-                                    <p class="text-xs font-light text-gold-300">Design Exclusivo</p>
+                                <div class="absolute inset-0 bg-gradient-to-t from-charcoal/50 via-transparent to-transparent"></div>
+                                <div class="absolute bottom-4 left-4 sm:bottom-6 sm:left-6 text-white">
+                                    <p class="font-serif italic text-base sm:text-lg">Coleção Solstice '26</p>
+                                    <p class="text-[10px] sm:text-xs font-light text-gold-300">Design Exclusivo</p>
                                 </div>
                             </div>
                         </div>
@@ -178,68 +190,71 @@
             </div>
 
             <!-- Categories Highlight Section -->
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-                <div class="text-center max-w-2xl mx-auto mb-12">
-                    <h2 class="font-serif text-3xl text-charcoal font-semibold mb-3">Categorias em Destaque</h2>
-                    <p class="text-gray-500 text-xs tracking-wider uppercase">Encontre a peça perfeita para cada momento</p>
-                    <div class="w-12 h-0.5 bg-gold-500 mx-auto mt-4"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
+                <div class="text-center max-w-2xl mx-auto mb-8 sm:mb-12">
+                    <h2 class="font-serif text-2xl sm:text-3xl text-charcoal font-semibold mb-2">Categorias em Destaque</h2>
+                    <p class="text-gray-500 text-[10px] sm:text-xs tracking-wider uppercase">Encontre a peça perfeita para cada momento</p>
+                    <div class="w-12 h-0.5 bg-gold-500 mx-auto mt-3"></div>
                 </div>
 
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
-                    <div onclick="filterCategory('Aneis')" class="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
-                        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
+                    <div onclick="filterCategory('Aneis')" class="group relative h-40 sm:h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Anéis">
                         <div class="absolute inset-0 bg-charcoal/30 group-hover:bg-charcoal/20 transition-colors"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
-                            <h3 class="font-serif text-xl tracking-wide">Anéis</h3>
-                            <span class="text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-2 text-center">
+                            <h3 class="font-serif text-lg sm:text-xl tracking-wide">Anéis</h3>
+                            <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
                         </div>
                     </div>
-                    <div onclick="filterCategory('Colares')" class="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
-                        <img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div onclick="filterCategory('Colares')" class="group relative h-40 sm:h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1599643477877-530eb83abc8e?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Colares">
                         <div class="absolute inset-0 bg-charcoal/30 group-hover:bg-charcoal/20 transition-colors"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
-                            <h3 class="font-serif text-xl tracking-wide">Colares</h3>
-                            <span class="text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-2 text-center">
+                            <h3 class="font-serif text-lg sm:text-xl tracking-wide">Colares</h3>
+                            <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
                         </div>
                     </div>
-                    <div onclick="filterCategory('Brincos')" class="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
-                        <img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div onclick="filterCategory('Brincos')" class="group relative h-40 sm:h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1630019852942-f89202989a59?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Brincos">
                         <div class="absolute inset-0 bg-charcoal/30 group-hover:bg-charcoal/20 transition-colors"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
-                            <h3 class="font-serif text-xl tracking-wide">Brincos</h3>
-                            <span class="text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-2 text-center">
+                            <h3 class="font-serif text-lg sm:text-xl tracking-wide">Brincos</h3>
+                            <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
                         </div>
                     </div>
-                    <div onclick="filterCategory('Pulseiras')" class="group relative h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
-                        <img src="https://images.unsplash.com/photo-1611591475170-be63595e0939?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                    <div onclick="filterCategory('Pulseiras')" class="group relative h-40 sm:h-64 rounded-xl overflow-hidden cursor-pointer shadow-sm hover:shadow-xl transition-all">
+                        <img src="https://images.unsplash.com/photo-1611591475170-be63595e0939?auto=format&fit=crop&q=80&w=600" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Pulseiras">
                         <div class="absolute inset-0 bg-charcoal/30 group-hover:bg-charcoal/20 transition-colors"></div>
-                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white">
-                            <h3 class="font-serif text-xl tracking-wide">Pulseiras</h3>
-                            <span class="text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-white p-2 text-center">
+                            <h3 class="font-serif text-lg sm:text-xl tracking-wide">Pulseiras</h3>
+                            <span class="text-[9px] sm:text-[10px] uppercase tracking-widest text-gold-300 mt-1 opacity-90 sm:opacity-0 group-hover:opacity-100 transition-opacity">Explorar &rarr;</span>
                         </div>
                     </div>
                 </div>
             </div>
 
             <!-- Product Catalog Section -->
-            <div id="catalog" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 border-t border-nude-200">
-                <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+            <div id="catalog" class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-8 sm:py-12 border-t border-nude-200">
+                <div class="flex flex-col md:flex-row md:items-end justify-between mb-6 sm:mb-8 gap-4">
                     <div>
-                        <h2 class="font-serif text-3xl text-charcoal font-semibold">Nosso Catálogo</h2>
-                        <p id="currentFilterText" class="text-xs text-gold-700 tracking-wider uppercase mt-1">Exibindo: Todas as Joias</p>
+                        <h2 class="font-serif text-2xl sm:text-3xl text-charcoal font-semibold">Nosso Catálogo</h2>
+                        <p id="currentFilterText" class="text-[10px] sm:text-xs text-gold-700 tracking-wider uppercase mt-1">Exibindo: Todas as Joias</p>
                     </div>
 
                     <!-- Category & Sorting Filters -->
-                    <div class="flex flex-wrap items-center gap-3">
-                        <div class="flex items-center space-x-1 bg-white p-1 rounded-lg border border-nude-200 text-xs">
-                            <button onclick="filterCategory('all')" class="cat-filter-btn px-3 py-1.5 rounded-md transition-all active-cat bg-gold-500 text-white" data-cat="all">Todos</button>
-                            <button onclick="filterCategory('Aneis')" class="cat-filter-btn px-3 py-1.5 rounded-md hover:bg-nude-100 text-gray-700" data-cat="Aneis">Anéis</button>
-                            <button onclick="filterCategory('Colares')" class="cat-filter-btn px-3 py-1.5 rounded-md hover:bg-nude-100 text-gray-700" data-cat="Colares">Colares</button>
-                            <button onclick="filterCategory('Brincos')" class="cat-filter-btn px-3 py-1.5 rounded-md hover:bg-nude-100 text-gray-700" data-cat="Brincos">Brincos</button>
-                            <button onclick="filterCategory('Pulseiras')" class="cat-filter-btn px-3 py-1.5 rounded-md hover:bg-nude-100 text-gray-700" data-cat="Pulseiras">Pulseiras</button>
+                    <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 w-full md:w-auto">
+                        <!-- Horizontal Scroll Filters for Mobile -->
+                        <div class="overflow-x-auto no-scrollbar pb-1 sm:pb-0 -mx-3 sm:mx-0 px-3 sm:px-0">
+                            <div class="flex items-center space-x-1.5 bg-white p-1 rounded-xl border border-nude-200 text-xs w-max">
+                                <button onclick="filterCategory('all')" class="cat-filter-btn px-3 py-1.5 rounded-lg transition-all active-cat bg-gold-500 text-white font-medium shrink-0" data-cat="all">Todos</button>
+                                <button onclick="filterCategory('Aneis')" class="cat-filter-btn px-3 py-1.5 rounded-lg hover:bg-nude-100 text-gray-700 font-medium shrink-0" data-cat="Aneis">Anéis</button>
+                                <button onclick="filterCategory('Colares')" class="cat-filter-btn px-3 py-1.5 rounded-lg hover:bg-nude-100 text-gray-700 font-medium shrink-0" data-cat="Colares">Colares</button>
+                                <button onclick="filterCategory('Brincos')" class="cat-filter-btn px-3 py-1.5 rounded-lg hover:bg-nude-100 text-gray-700 font-medium shrink-0" data-cat="Brincos">Brincos</button>
+                                <button onclick="filterCategory('Pulseiras')" class="cat-filter-btn px-3 py-1.5 rounded-lg hover:bg-nude-100 text-gray-700 font-medium shrink-0" data-cat="Pulseiras">Pulseiras</button>
+                            </div>
                         </div>
 
-                        <select id="sortSelect" onchange="applySorting()" class="bg-white border border-nude-200 rounded-lg px-3 py-2 text-xs focus:outline-none focus:border-gold-500">
+                        <select id="sortSelect" onchange="applySorting()" class="w-full sm:w-auto bg-white border border-nude-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-gold-500 text-gray-700">
                             <option value="default">Ordenar por: Relevância</option>
                             <option value="price-asc">Preço: Menor para Maior</option>
                             <option value="price-desc">Preço: Maior para Menor</option>
@@ -248,35 +263,35 @@
                     </div>
                 </div>
 
-                <!-- Products Grid -->
-                <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Products Grid: 2 columns on mobile for better e-commerce layout -->
+                <div id="productGrid" class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
                     <!-- Dynamic Product Cards Injected Here -->
                 </div>
             </div>
 
             <!-- Value Proposition Banner -->
-            <div class="bg-nude-100 py-16 border-t border-nude-200 mt-12">
+            <div class="bg-nude-100 py-10 sm:py-16 border-t border-nude-200 mt-8 sm:mt-12">
                 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
-                        <div class="p-6 space-y-3">
-                            <div class="w-12 h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto">
-                                <i data-lucide="award" class="w-6 h-6"></i>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 text-center">
+                        <div class="p-4 sm:p-6 space-y-2 sm:space-y-3 bg-white/50 sm:bg-transparent rounded-xl border border-nude-200/50 sm:border-0">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto">
+                                <i data-lucide="award" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                             </div>
-                            <h4 class="font-serif text-lg font-semibold text-charcoal">Garantia Vitalícia</h4>
+                            <h4 class="font-serif text-base sm:text-lg font-semibold text-charcoal">Garantia Vitalícia</h4>
                             <p class="text-xs text-gray-500 leading-relaxed">Garantia permanente sobre a autenticidade dos metais e pedras preciosas.</p>
                         </div>
-                        <div class="p-6 space-y-3">
-                            <div class="w-12 h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto">
-                                <i data-lucide="truck" class="w-6 h-6"></i>
+                        <div class="p-4 sm:p-6 space-y-2 sm:space-y-3 bg-white/50 sm:bg-transparent rounded-xl border border-nude-200/50 sm:border-0">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto">
+                                <i data-lucide="truck" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                             </div>
-                            <h4 class="font-serif text-lg font-semibold text-charcoal">Entrega Segura</h4>
+                            <h4 class="font-serif text-base sm:text-lg font-semibold text-charcoal">Entrega Segura</h4>
                             <p class="text-xs text-gray-500 leading-relaxed">Embalagens discretas e transporte rastreado com seguro total até você.</p>
                         </div>
-                        <div class="p-6 space-y-3">
-                            <div class="w-12 h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto">
-                                <i data-lucide="sparkles" class="w-6 h-6"></i>
+                        <div class="p-4 sm:p-6 space-y-2 sm:space-y-3 bg-white/50 sm:bg-transparent rounded-xl border border-nude-200/50 sm:border-0">
+                            <div class="w-10 h-10 sm:w-12 sm:h-12 bg-gold-100 text-gold-600 rounded-full flex items-center justify-center mx-auto">
+                                <i data-lucide="sparkles" class="w-5 h-5 sm:w-6 sm:h-6"></i>
                             </div>
-                            <h4 class="font-serif text-lg font-semibold text-charcoal">Design Exclusivo</h4>
+                            <h4 class="font-serif text-base sm:text-lg font-semibold text-charcoal">Design Exclusivo</h4>
                             <p class="text-xs text-gray-500 leading-relaxed">Peças desenhadas por artesãos especializados com acabamento perfeito.</p>
                         </div>
                     </div>
@@ -288,82 +303,88 @@
         <!-- ========================================== -->
         <!-- ADMIN VIEW (PAINEL ADMINISTRATIVO)         -->
         <!-- ========================================== -->
-        <section id="adminView" class="hidden bg-gray-50 min-h-screen py-8">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section id="adminView" class="hidden bg-gray-50 min-h-screen py-6 sm:py-8">
+            <div class="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
                 
                 <!-- Admin Header Bar -->
-                <div class="flex flex-col md:flex-row md:items-center justify-between pb-6 mb-8 border-b border-gray-200">
+                <div class="flex flex-col md:flex-row md:items-center justify-between pb-4 sm:pb-6 mb-6 border-b border-gray-200 gap-4">
                     <div>
                         <div class="flex items-center gap-2">
-                            <span class="bg-gold-500 text-white text-[10px] font-bold uppercase tracking-widest px-2.5 py-1 rounded">Módulo ADM</span>
-                            <h1 class="font-serif text-2xl font-bold text-charcoal">Painel de Gestão Raio de Sol</h1>
+                            <span class="bg-gold-500 text-white text-[9px] sm:text-[10px] font-bold uppercase tracking-widest px-2 py-0.5 sm:px-2.5 sm:py-1 rounded">Módulo ADM</span>
+                            <h1 class="font-serif text-xl sm:text-2xl font-bold text-charcoal">Painel de Gestão Raio de Sol</h1>
                         </div>
-                        <p class="text-xs text-gray-500 mt-1">Gerencie produtos, estoque, vendas e pedidos recebidos em tempo real.</p>
+                        <p class="text-xs text-gray-500 mt-1">Gerencie produtos, estoque e vendas em tempo real.</p>
                     </div>
 
-                    <div class="mt-4 md:mt-0 flex items-center gap-3">
-                        <button onclick="openProductModal()" class="bg-gold-500 hover:bg-gold-600 text-white text-xs font-semibold px-4 py-2.5 rounded-lg flex items-center gap-2 transition-colors shadow-sm">
+                    <div class="flex items-center gap-3">
+                        <button onclick="openProductModal()" class="w-full sm:w-auto bg-gold-500 hover:bg-gold-600 text-white text-xs font-semibold px-4 py-2.5 rounded-xl flex items-center justify-center gap-2 transition-colors shadow-sm">
                             <i data-lucide="plus" class="w-4 h-4"></i> Novo Produto
                         </button>
                     </div>
                 </div>
 
-                <!-- KPI Dashboard Cards -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                <!-- KPI Dashboard Cards: 2 cols on mobile for balance -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6 mb-6 sm:mb-8">
+                    <div class="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
                         <div class="flex items-center justify-between text-gray-400 mb-2">
-                            <span class="text-xs uppercase font-medium tracking-wider">Faturamento Total</span>
-                            <i data-lucide="dollar-sign" class="w-5 h-5 text-gold-500"></i>
+                            <span class="text-[10px] sm:text-xs uppercase font-medium tracking-wider">Faturamento</span>
+                            <i data-lucide="dollar-sign" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-500"></i>
                         </div>
-                        <div id="kpiRevenue" class="text-2xl font-bold text-charcoal">R$ 0,00</div>
-                        <span class="text-[11px] text-emerald-600 font-medium">↑ Atualizado em tempo real</span>
+                        <div id="kpiRevenue" class="text-lg sm:text-2xl font-bold text-charcoal">R$ 0,00</div>
+                        <span class="text-[9px] sm:text-[11px] text-emerald-600 font-medium">↑ Tempo real</span>
                     </div>
 
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
                         <div class="flex items-center justify-between text-gray-400 mb-2">
-                            <span class="text-xs uppercase font-medium tracking-wider">Total de Pedidos</span>
-                            <i data-lucide="shopping-bag" class="w-5 h-5 text-gold-500"></i>
+                            <span class="text-[10px] sm:text-xs uppercase font-medium tracking-wider">Pedidos</span>
+                            <i data-lucide="shopping-bag" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-500"></i>
                         </div>
-                        <div id="kpiOrders" class="text-2xl font-bold text-charcoal">0</div>
-                        <span class="text-[11px] text-gray-500 font-medium">Pedidos realizados na loja</span>
+                        <div id="kpiOrders" class="text-lg sm:text-2xl font-bold text-charcoal">0</div>
+                        <span class="text-[9px] sm:text-[11px] text-gray-500 font-medium">Na loja</span>
                     </div>
 
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
                         <div class="flex items-center justify-between text-gray-400 mb-2">
-                            <span class="text-xs uppercase font-medium tracking-wider">Produtos Ativos</span>
-                            <i data-lucide="gem" class="w-5 h-5 text-gold-500"></i>
+                            <span class="text-[10px] sm:text-xs uppercase font-medium tracking-wider">Produtos</span>
+                            <i data-lucide="gem" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-500"></i>
                         </div>
-                        <div id="kpiProducts" class="text-2xl font-bold text-charcoal">0</div>
-                        <span class="text-[11px] text-gray-500 font-medium">Catálogo cadastrado</span>
+                        <div id="kpiProducts" class="text-lg sm:text-2xl font-bold text-charcoal">0</div>
+                        <span class="text-[9px] sm:text-[11px] text-gray-500 font-medium">Ativos</span>
                     </div>
 
-                    <div class="bg-white p-6 rounded-xl border border-gray-200 shadow-sm">
+                    <div class="bg-white p-4 sm:p-6 rounded-xl border border-gray-200 shadow-sm">
                         <div class="flex items-center justify-between text-gray-400 mb-2">
-                            <span class="text-xs uppercase font-medium tracking-wider">Ticket Médio</span>
-                            <i data-lucide="trending-up" class="w-5 h-5 text-gold-500"></i>
+                            <span class="text-[10px] sm:text-xs uppercase font-medium tracking-wider">Ticket Médio</span>
+                            <i data-lucide="trending-up" class="w-4 h-4 sm:w-5 sm:h-5 text-gold-500"></i>
                         </div>
-                        <div id="kpiAvgTicket" class="text-2xl font-bold text-charcoal">R$ 0,00</div>
-                        <span class="text-[11px] text-gray-500 font-medium">Média por pedido</span>
+                        <div id="kpiAvgTicket" class="text-lg sm:text-2xl font-bold text-charcoal">R$ 0,00</div>
+                        <span class="text-[9px] sm:text-[11px] text-gray-500 font-medium">Média/pedido</span>
                     </div>
                 </div>
 
                 <div class="bg-white rounded-xl border border-gray-200 p-4 mb-6">
-                    <h3 class="font-semibold text-sm mb-3">Configurações de pagamento</h3>
+                    <h3 class="font-semibold text-sm mb-3 text-charcoal">Configurações de Pagamento & Loja</h3>
                     <div class="grid md:grid-cols-2 gap-3">
-                        <div><label class="block text-xs mb-1">WhatsApp da loja (DDI + DDD + número)</label><input id="storeWhatsapp" class="w-full border rounded-lg p-2.5 text-sm" placeholder="5511999999999"></div>
-                        <div><label class="block text-xs mb-1">Chave PIX da loja</label><input id="storePixKey" class="w-full border rounded-lg p-2.5 text-sm" placeholder="CPF, CNPJ, e-mail, telefone ou chave aleatória"></div>
-                        <div><label class="block text-xs mb-1">Upload do QR Code PIX fornecido pelo banco</label><input type="file" id="storePixQrFile" accept="image/*" class="w-full border rounded-lg p-2.5 text-sm"></div>
-                        <div class="flex items-center gap-3"><img id="adminPixQrPreview" class="hidden w-20 h-20 object-contain border rounded" alt="Prévia QR PIX"><button onclick="savePaymentSettings()" class="bg-gold-500 text-white rounded-lg px-4 py-2 text-sm">Salvar configurações</button></div>
+                        <div>
+                            <label class="block text-xs mb-1 font-medium text-gray-700">WhatsApp da loja (DDI + DDD + número)</label>
+                            <input id="storeWhatsapp" class="w-full border border-gray-200 rounded-lg p-2.5 text-xs focus:outline-none focus:border-gold-500" placeholder="5511999999999">
+                        </div>
+                        <div>
+                            <label class="block text-xs mb-1 font-medium text-gray-700">Chave PIX da loja</label>
+                            <input id="storePixKey" class="w-full border border-gray-200 rounded-lg p-2.5 text-xs focus:outline-none focus:border-gold-500" placeholder="CPF, CNPJ, e-mail, telefone ou chave aleatória">
+                        </div>
+                        <div class="md:col-span-2 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 pt-2">
+                            <button onclick="savePaymentSettings()" class="bg-gold-500 hover:bg-gold-600 text-white rounded-lg px-4 py-2.5 text-xs font-semibold transition-colors">Salvar Configurações</button>
+                        </div>
                     </div>
-                    <p class="text-[11px] text-gray-500 mt-2">Use o QR Code PIX estático/dinâmico emitido pelo seu banco. Este site não confirma automaticamente o recebimento do PIX.</p>
                 </div>
 
                 <!-- Admin Tabs Control -->
-                <div class="flex border-b border-gray-200 mb-6 space-x-6 text-sm font-medium">
-                    <button onclick="switchAdminTab('products')" id="tabProductsBtn" class="pb-3 border-b-2 border-gold-500 text-gold-600 font-semibold flex items-center gap-2">
+                <div class="flex border-b border-gray-200 mb-6 space-x-4 sm:space-x-6 text-xs sm:text-sm font-medium">
+                    <button onclick="switchAdminTab('products')" id="tabProductsBtn" class="pb-3 border-b-2 border-gold-500 text-gold-600 font-semibold flex items-center gap-1.5 sm:gap-2">
                         <i data-lucide="package" class="w-4 h-4"></i> Cadastro de Produtos
                     </button>
-                    <button onclick="switchAdminTab('orders')" id="tabOrdersBtn" class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center gap-2">
+                    <button onclick="switchAdminTab('orders')" id="tabOrdersBtn" class="pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center gap-1.5 sm:gap-2">
                         <i data-lucide="clipboard-list" class="w-4 h-4"></i> Gestão de Pedidos
                     </button>
                 </div>
@@ -372,18 +393,19 @@
                 <div id="adminTabProducts" class="block">
                     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                         <div class="p-4 border-b border-gray-200 bg-gray-50/50 flex justify-between items-center">
-                            <h3 class="font-semibold text-sm text-gray-700">Lista de Joias no Catálogo</h3>
-                            <span class="text-xs text-gray-500">Clique em editar para modificar preços ou estoque</span>
+                            <h3 class="font-semibold text-xs sm:text-sm text-gray-700">Lista de Joias no Catálogo</h3>
+                            <span class="text-[10px] sm:text-xs text-gray-500">Role para o lado se necessário &rarr;</span>
                         </div>
+                        <!-- Responsive scroll wrapper with min width -->
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs">
+                            <table class="w-full text-left text-xs min-w-[600px]">
                                 <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider border-b border-gray-200">
                                     <tr>
-                                        <th class="p-4">Produto</th>
-                                        <th class="p-4">Categoria</th>
-                                        <th class="p-4">Preço</th>
-                                        <th class="p-4">Estoque</th>
-                                        <th class="p-4 text-right">Ações</th>
+                                        <th class="p-3 sm:p-4">Produto</th>
+                                        <th class="p-3 sm:p-4">Categoria</th>
+                                        <th class="p-3 sm:p-4">Preço</th>
+                                        <th class="p-3 sm:p-4">Estoque</th>
+                                        <th class="p-3 sm:p-4 text-right">Ações</th>
                                     </tr>
                                 </thead>
                                 <tbody id="adminProductsTable" class="divide-y divide-gray-100">
@@ -398,19 +420,20 @@
                 <div id="adminTabOrders" class="hidden">
                     <div class="bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm">
                         <div class="p-4 border-b border-gray-200 bg-gray-50/50">
-                            <h3 class="font-semibold text-sm text-gray-700">Histórico de Pedidos Recebidos</h3>
+                            <h3 class="font-semibold text-xs sm:text-sm text-gray-700">Histórico de Pedidos Recebidos</h3>
                         </div>
+                        <!-- Responsive scroll wrapper with min width -->
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left text-xs">
+                            <table class="w-full text-left text-xs min-w-[650px]">
                                 <thead class="bg-gray-50 text-gray-500 uppercase tracking-wider border-b border-gray-200">
                                     <tr>
-                                        <th class="p-4">ID Pedido</th>
-                                        <th class="p-4">Cliente</th>
-                                        <th class="p-4">Itens</th>
-                                        <th class="p-4">Pagamento</th>
-                                        <th class="p-4">Total</th>
-                                        <th class="p-4">Status</th>
-                                        <th class="p-4 text-right">Alterar Status</th>
+                                        <th class="p-3 sm:p-4">ID Pedido</th>
+                                        <th class="p-3 sm:p-4">Cliente</th>
+                                        <th class="p-3 sm:p-4">Itens</th>
+                                        <th class="p-3 sm:p-4">Pagamento</th>
+                                        <th class="p-3 sm:p-4">Total</th>
+                                        <th class="p-3 sm:p-4">Status</th>
+                                        <th class="p-3 sm:p-4 text-right">Ação</th>
                                     </tr>
                                 </thead>
                                 <tbody id="adminOrdersTable" class="divide-y divide-gray-100">
@@ -427,49 +450,49 @@
     </main>
 
     <!-- FOOTER -->
-    <footer class="bg-charcoal text-white pt-16 pb-8 border-t border-gold-600/30">
+    <footer class="bg-charcoal text-white pt-12 sm:pt-16 pb-8 border-t border-gold-600/30">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-gray-800">
-                <div class="space-y-4">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 pb-10 border-b border-gray-800">
+                <div class="space-y-3">
                     <div class="flex items-center">
-                        <i data-lucide="sun" class="w-6 h-6 text-gold-400 mr-2"></i>
-                        <span class="font-serif text-xl font-bold tracking-wider">RAIO DE SOL</span>
+                        <i data-lucide="sun" class="w-5 h-5 text-gold-400 mr-2"></i>
+                        <span class="font-serif text-lg font-bold tracking-wider">RAIO DE SOL</span>
                     </div>
                     <p class="text-xs text-gray-400 leading-relaxed">Especialistas em eternizar momentos através da luz e elegância de joias atemporais.</p>
                 </div>
 
                 <div>
-                    <h5 class="font-serif text-sm font-semibold text-gold-300 mb-4 tracking-wider uppercase">Navegação</h5>
-                    <ul class="space-y-2 text-xs text-gray-400">
-                        <li><a href="#" onclick="filterCategory('Aneis')" class="hover:text-gold-400 transition-colors">Anéis Banhado Ouro</a></li>
-                        <li><a href="#" onclick="filterCategory('Colares')" class="hover:text-gold-400 transition-colors">Colares & Gargantilhas</a></li>
-                        <li><a href="#" onclick="filterCategory('Brincos')" class="hover:text-gold-400 transition-colors">Brincos Elegantes</a></li>
-                        <li><a href="#" onclick="filterCategory('Pulseiras')" class="hover:text-gold-400 transition-colors">Pulseiras e Braceletes</a></li>
+                    <h5 class="font-serif text-xs font-semibold text-gold-300 mb-3 tracking-wider uppercase">Navegação</h5>
+                    <ul class="space-y-1.5 text-xs text-gray-400">
+                        <li><a href="#catalog" onclick="filterCategory('Aneis')" class="hover:text-gold-400 transition-colors">Anéis Banhado Ouro</a></li>
+                        <li><a href="#catalog" onclick="filterCategory('Colares')" class="hover:text-gold-400 transition-colors">Colares & Gargantilhas</a></li>
+                        <li><a href="#catalog" onclick="filterCategory('Brincos')" class="hover:text-gold-400 transition-colors">Brincos Elegantes</a></li>
+                        <li><a href="#catalog" onclick="filterCategory('Pulseiras')" class="hover:text-gold-400 transition-colors">Pulseiras e Braceletes</a></li>
                     </ul>
                 </div>
 
                 <div>
-                    <h5 class="font-serif text-sm font-semibold text-gold-300 mb-4 tracking-wider uppercase">Atendimento</h5>
-                    <ul class="space-y-2 text-xs text-gray-400">
+                    <h5 class="font-serif text-xs font-semibold text-gold-300 mb-3 tracking-wider uppercase">Atendimento</h5>
+                    <ul class="space-y-1.5 text-xs text-gray-400">
                         <li>Atendimento ao Cliente (SAC)</li>
                         <li>Segunda a Sexta: 09h às 18h</li>
-                        <li>contato@raiodesoljoias.com.br</li>
+                        <li class="break-all">contato@raiodesoljoias.com.br</li>
                         <li>(11) 99887-6655</li>
                     </ul>
                 </div>
 
                 <div>
-                    <h5 class="font-serif text-sm font-semibold text-gold-300 mb-4 tracking-wider uppercase">Formas de Pagamento</h5>
-                    <div class="flex flex-wrap gap-2 text-gray-400 text-xs">
-                        <span class="bg-gray-800 px-3 py-1.5 rounded border border-gray-700">PIX (5% OFF)</span>
-                        <span class="bg-gray-800 px-3 py-1.5 rounded border border-gray-700">Cartão de Crédito</span>
-                        <span class="bg-gray-800 px-3 py-1.5 rounded border border-gray-700">Boleto</span>
+                    <h5 class="font-serif text-xs font-semibold text-gold-300 mb-3 tracking-wider uppercase">Formas de Pagamento</h5>
+                    <div class="flex flex-wrap gap-2 text-gray-400 text-[11px]">
+                        <span class="bg-gray-800 px-2.5 py-1 rounded border border-gray-700">PIX</span>
+                        <span class="bg-gray-800 px-2.5 py-1 rounded border border-gray-700">Cartão de Crédito</span>
+                        <span class="bg-gray-800 px-2.5 py-1 rounded border border-gray-700">Boleto</span>
                     </div>
                 </div>
             </div>
 
-            <div class="pt-8 text-center text-xs text-gray-500">
-                <p>&copy; 2026 Raio de Sol Joias & Semijoias. Todos os direitos reservados. Design Exclusivo.</p>
+            <div class="pt-6 text-center text-xs text-gray-500">
+                <p>&copy; 2026 Raio de Sol Joias & Semijoias. Todos os direitos reservados.</p>
             </div>
         </div>
     </footer>
@@ -481,27 +504,28 @@
     <!-- SHOPPING CART DRAWER -->
     <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden">
         <div class="absolute inset-0 bg-charcoal/60 backdrop-blur-sm transition-opacity" onclick="toggleCartDrawer(false)"></div>
-        <div class="fixed inset-y-0 right-0 max-w-full flex pl-10">
+        <div class="fixed inset-y-0 right-0 max-w-full flex">
+            <!-- Full width on mobile, constrained on desktop -->
             <div class="w-screen max-w-md bg-white shadow-2xl flex flex-col justify-between">
                 
                 <!-- Drawer Header -->
-                <div class="p-6 border-b border-nude-200 flex items-center justify-between bg-nude-50">
+                <div class="p-4 sm:p-6 border-b border-nude-200 flex items-center justify-between bg-nude-50">
                     <div class="flex items-center gap-2">
                         <i data-lucide="shopping-bag" class="w-5 h-5 text-gold-600"></i>
-                        <h3 class="font-serif text-lg font-semibold text-charcoal">Seu Carrinho</h3>
+                        <h3 class="font-serif text-base sm:text-lg font-semibold text-charcoal">Seu Carrinho</h3>
                     </div>
-                    <button onclick="toggleCartDrawer(false)" class="p-1 text-gray-400 hover:text-charcoal">
+                    <button onclick="toggleCartDrawer(false)" class="p-1 text-gray-400 hover:text-charcoal" aria-label="Fechar carrinho">
                         <i data-lucide="x" class="w-6 h-6"></i>
                     </button>
                 </div>
 
                 <!-- Cart Items List -->
-                <div id="cartItemsContainer" class="flex-grow p-6 overflow-y-auto space-y-4">
+                <div id="cartItemsContainer" class="flex-grow p-4 sm:p-6 overflow-y-auto space-y-4">
                     <!-- Dynamic Cart Items Injected Here -->
                 </div>
 
                 <!-- Drawer Footer & Summary -->
-                <div class="p-6 border-t border-nude-200 bg-nude-50 space-y-4">
+                <div class="p-4 sm:p-6 border-t border-nude-200 bg-nude-50 space-y-4">
                     <div class="space-y-1.5 text-xs">
                         <div class="flex justify-between text-gray-600">
                             <span>Subtotal</span>
@@ -528,14 +552,14 @@
 
     <!-- PRODUCT DETAIL MODAL -->
     <div id="productModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
-        <div class="min-h-screen px-4 text-center flex items-center justify-center">
+        <div class="min-h-screen px-3 text-center flex items-center justify-center p-2 sm:p-4">
             <div class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm transition-opacity" onclick="closeProductModal()"></div>
-            <div class="inline-block w-full max-w-2xl p-6 my-8 text-left transition-all transform bg-white shadow-2xl rounded-2xl relative z-10">
-                <button onclick="closeProductModal()" class="absolute top-4 right-4 text-gray-400 hover:text-charcoal z-20">
+            <div class="inline-block w-full max-w-2xl p-4 sm:p-6 my-6 text-left transition-all transform bg-white shadow-2xl rounded-2xl relative z-10 max-h-[90vh] overflow-y-auto">
+                <button onclick="closeProductModal()" class="absolute top-3 right-3 text-gray-400 hover:text-charcoal z-20 p-1">
                     <i data-lucide="x" class="w-6 h-6"></i>
                 </button>
                 
-                <div id="productModalContent" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div id="productModalContent" class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6 pt-2">
                     <!-- Dynamic Details Injected Here -->
                 </div>
             </div>
@@ -544,24 +568,24 @@
 
     <!-- CHECKOUT SIMULATION MODAL -->
     <div id="checkoutModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
-        <div class="min-h-screen px-4 text-center flex items-center justify-center">
+        <div class="min-h-screen px-3 text-center flex items-center justify-center p-2 sm:p-4">
             <div class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm transition-opacity" onclick="closeCheckoutModal()"></div>
-            <div class="inline-block w-full max-w-lg p-6 my-8 text-left transition-all transform bg-white shadow-2xl rounded-2xl relative z-10">
+            <div class="inline-block w-full max-w-lg p-5 sm:p-6 my-6 text-left transition-all transform bg-white shadow-2xl rounded-2xl relative z-10 max-h-[90vh] overflow-y-auto">
                 
-                <div class="flex items-center justify-between border-b border-nude-200 pb-4 mb-4">
-                    <h3 class="font-serif text-xl font-semibold text-charcoal">Checkout Seguro</h3>
-                    <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-charcoal">
+                <div class="flex items-center justify-between border-b border-nude-200 pb-3 mb-4">
+                    <h3 class="font-serif text-lg sm:text-xl font-semibold text-charcoal">Checkout Seguro</h3>
+                    <button onclick="closeCheckoutModal()" class="text-gray-400 hover:text-charcoal p-1">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
 
-                <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)" class="space-y-4 text-xs">
+                <form id="checkoutForm" onsubmit="handleCheckoutSubmit(event)" class="space-y-3 sm:space-y-4 text-xs">
                     <div>
                         <label class="block font-medium text-gray-700 mb-1">Nome Completo</label>
                         <input type="text" required placeholder="Ex: Maria Silva" class="w-full bg-nude-50 border border-nude-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block font-medium text-gray-700 mb-1">E-mail</label>
                             <input type="email" required placeholder="maria@email.com" class="w-full bg-nude-50 border border-nude-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
@@ -577,13 +601,16 @@
                         <input type="text" required placeholder="Rua, Número, Bairro, Cidade - UF" class="w-full bg-nude-50 border border-nude-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
                     </div>
 
-                    <div class="rounded-xl border border-nude-200 bg-nude-50 p-4 space-y-2">
-                        <p class="font-semibold text-charcoal">Finalize seu pedido pelo WhatsApp</p>
-                        <p class="text-gray-600">Nenhum pagamento será realizado neste site. Ao continuar, você será direcionado ao WhatsApp da loja para confirmar o pedido, combinar a entrega e receber as instruções de pagamento diretamente com a vendedora.</p>
+                    <div class="rounded-xl border border-nude-200 bg-nude-50 p-3.5 space-y-1.5">
+                        <p class="font-semibold text-charcoal flex items-center gap-1.5">
+                            <i data-lucide="message-circle" class="w-4 h-4 text-emerald-600"></i>
+                            Finalize seu pedido pelo WhatsApp
+                        </p>
+                        <p class="text-gray-600 text-[11px] leading-relaxed">Nenhum pagamento será realizado neste site. Ao continuar, você será direcionado ao WhatsApp da loja para confirmar o pedido, combinar a entrega e receber as instruções diretamente.</p>
                     </div>
                     <div class="pt-2">
                         <button type="submit" class="w-full bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest py-3.5 rounded-full transition-all shadow-md">
-                            Entrar em contato pelo WhatsApp <span id="checkoutTotalBtn"></span>
+                            Entrar em contato <span id="checkoutTotalBtn"></span>
                         </button>
                     </div>
                 </form>
@@ -594,14 +621,14 @@
 
     <!-- SUCCESS NOTIFICATION / CONFIRMATION MODAL -->
     <div id="successModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
-        <div class="min-h-screen px-4 text-center flex items-center justify-center">
+        <div class="min-h-screen px-4 text-center flex items-center justify-center p-4">
             <div class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm"></div>
             <div class="inline-block w-full max-w-sm p-6 my-8 text-center transition-all transform bg-white shadow-2xl rounded-2xl relative z-10">
-                <div class="w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <i data-lucide="check-circle" class="w-10 h-10"></i>
+                <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="check-circle" class="w-8 h-8"></i>
                 </div>
-                <h3 class="font-serif text-2xl font-bold text-charcoal mb-2">Pedido Realizado!</h3>
-                <p class="text-xs text-gray-600 mb-6 leading-relaxed">Sua compra foi confirmada com sucesso. Enviamos os detalhes do rastreamento para o seu e-mail.</p>
+                <h3 class="font-serif text-xl sm:text-2xl font-bold text-charcoal mb-2">Pedido Preparado!</h3>
+                <p class="text-xs text-gray-600 mb-5 leading-relaxed">O WhatsApp foi aberto para você confirmar os detalhes com nossa equipe. Agradecemos a preferência!</p>
                 <button onclick="closeSuccessModal()" class="w-full bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest py-3 rounded-full">
                     Continuar Comprando
                 </button>
@@ -610,30 +637,36 @@
     </div>
 
     <!-- LOGIN DO PAINEL ADM -->
-    <div id="adminLoginModal" class="fixed inset-0 z-[70] bg-charcoal/70 flex items-center justify-center p-4 hidden">
-        <form onsubmit="submitAdminLogin(event)" class="bg-white rounded-2xl p-6 w-full max-w-sm space-y-4 shadow-2xl">
-            <h2 class="font-serif text-xl font-bold">Acesso administrativo</h2>
-            <p class="text-sm text-gray-600">Digite a senha para abrir o painel.</p>
-            <input id="adminPasswordInput" type="password" required autocomplete="current-password" placeholder="Senha do administrador" class="w-full border rounded-lg p-3">
-            <p id="adminLoginError" class="hidden text-sm text-red-600">Senha incorreta.</p>
-            <div class="flex gap-2"><button type="button" onclick="closeAdminLogin()" class="flex-1 border rounded-lg p-2">Cancelar</button><button type="submit" class="flex-1 bg-gold-500 text-white rounded-lg p-2">Entrar</button></div>
+    <div id="adminLoginModal" class="fixed inset-0 z-[70] bg-charcoal/70 backdrop-blur-sm flex items-center justify-center p-4 hidden">
+        <form onsubmit="submitAdminLogin(event)" class="bg-white rounded-2xl p-5 sm:p-6 w-full max-w-sm space-y-4 shadow-2xl">
+            <div class="flex items-center gap-2 text-gold-600">
+                <i data-lucide="lock" class="w-5 h-5"></i>
+                <h2 class="font-serif text-lg font-bold text-charcoal">Acesso Administrativo</h2>
+            </div>
+            <p class="text-xs text-gray-600">Digite a senha do painel de controle para continuar.</p>
+            <input id="adminPasswordInput" type="password" required autocomplete="current-password" placeholder="Senha do administrador" class="w-full border rounded-xl p-3 text-xs focus:outline-none focus:border-gold-500">
+            <p id="adminLoginError" class="hidden text-xs text-red-600">Senha incorreta. Tente novamente.</p>
+            <div class="flex gap-2 pt-1">
+                <button type="button" onclick="closeAdminLogin()" class="flex-1 border border-gray-200 text-gray-600 rounded-xl p-2.5 text-xs font-medium">Cancelar</button>
+                <button type="submit" class="flex-1 bg-gold-500 text-white rounded-xl p-2.5 text-xs font-semibold hover:bg-gold-600 transition-colors">Entrar</button>
+            </div>
         </form>
     </div>
 
     <!-- ADMIN PRODUCT EDIT/CREATE MODAL -->
     <div id="adminProductModal" class="fixed inset-0 z-50 overflow-y-auto hidden">
-        <div class="min-h-screen px-4 text-center flex items-center justify-center">
+        <div class="min-h-screen px-3 text-center flex items-center justify-center p-2 sm:p-4">
             <div class="fixed inset-0 bg-charcoal/60 backdrop-blur-sm" onclick="closeAdminProductModal()"></div>
-            <div class="inline-block w-full max-w-lg p-6 my-8 text-left transition-all transform bg-white shadow-2xl rounded-2xl relative z-10">
+            <div class="inline-block w-full max-w-lg p-5 sm:p-6 my-6 text-left transition-all transform bg-white shadow-2xl rounded-2xl relative z-10 max-h-[90vh] overflow-y-auto">
                 
-                <div class="flex items-center justify-between border-b border-gray-200 pb-4 mb-4">
-                    <h3 id="adminModalTitle" class="font-serif text-xl font-semibold text-charcoal">Cadastrar Novo Produto</h3>
-                    <button onclick="closeAdminProductModal()" class="text-gray-400 hover:text-charcoal">
+                <div class="flex items-center justify-between border-b border-gray-200 pb-3 mb-4">
+                    <h3 id="adminModalTitle" class="font-serif text-lg sm:text-xl font-semibold text-charcoal">Cadastrar Novo Produto</h3>
+                    <button onclick="closeAdminProductModal()" class="text-gray-400 hover:text-charcoal p-1">
                         <i data-lucide="x" class="w-5 h-5"></i>
                     </button>
                 </div>
 
-                <form id="adminProductForm" onsubmit="handleSaveProduct(event)" class="space-y-4 text-xs">
+                <form id="adminProductForm" onsubmit="handleSaveProduct(event)" class="space-y-3.5 text-xs">
                     <input type="hidden" id="adminProdId">
 
                     <div>
@@ -641,7 +674,7 @@
                         <input type="text" id="adminProdName" required placeholder="Ex: Anel Solitário Ouro 18k" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block font-medium text-gray-700 mb-1">Categoria</label>
                             <select id="adminProdCategory" required class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
@@ -658,17 +691,16 @@
                         </div>
                     </div>
 
-                    <div class="grid grid-cols-2 gap-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block font-medium text-gray-700 mb-1">Estoque Inicial</label>
                             <input type="number" id="adminProdStock" required placeholder="10" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
                         </div>
                         <div>
-                            <label class="block font-medium text-gray-700 mb-1">Imagem do produto (upload)</label>
-                            <input type="file" id="adminProdImageFile" accept="image/*" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2.5 focus:outline-none focus:border-gold-500">
+                            <label class="block font-medium text-gray-700 mb-1">Imagem do Produto</label>
+                            <input type="file" id="adminProdImageFile" accept="image/*" class="w-full bg-gray-50 border border-gray-200 rounded-lg p-2 text-xs">
                             <input type="hidden" id="adminProdImage">
-                            <img id="adminProdImagePreview" class="hidden mt-2 h-24 w-24 rounded-lg object-cover border" alt="Prévia da imagem">
-                            <p class="text-[10px] text-gray-500 mt-1">Selecione uma imagem do computador. Imagens grandes podem exceder o armazenamento do navegador.</p>
+                            <img id="adminProdImagePreview" class="hidden mt-2 h-20 w-20 rounded-lg object-cover border" alt="Prévia da imagem">
                         </div>
                     </div>
 
@@ -766,7 +798,7 @@
         let currentSort = 'default';
         let currentSearchQuery = '';
         let currentView = 'store'; // 'store' or 'admin'
-        const ADMIN_PASSWORD = 'RaioSol@2026'; // Altere esta senha no código
+        const ADMIN_PASSWORD = 'RaioSol@2026';
         let adminAuthenticated = false;
         let storeSettings = JSON.parse(localStorage.getItem('rds_payment_settings') || '{}');
 
@@ -782,25 +814,52 @@
             renderProducts();
             updateCartUI();
             renderAdminDashboard();
-            updatePixCheckout();
             lucide.createIcons();
         });
 
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            const isHidden = menu.classList.contains('hidden');
+            
+            if (isHidden) {
+                menu.classList.remove('hidden');
+                menuIcon.setAttribute('data-lucide', 'x');
+            } else {
+                menu.classList.add('hidden');
+                menuIcon.setAttribute('data-lucide', 'menu');
+            }
+            lucide.createIcons();
+        }
+
         // Toggle View: Client Store vs ADM Panel
         function toggleAdminView() {
-            if (currentView === 'admin') { adminAuthenticated = false; switchView('store'); return; }
+            if (currentView === 'admin') { 
+                adminAuthenticated = false; 
+                switchView('store'); 
+                return; 
+            }
             document.getElementById('adminLoginModal').classList.remove('hidden');
             document.getElementById('adminPasswordInput').value = '';
             document.getElementById('adminLoginError').classList.add('hidden');
             document.getElementById('adminPasswordInput').focus();
         }
-        function closeAdminLogin() { document.getElementById('adminLoginModal').classList.add('hidden'); }
+
+        function closeAdminLogin() { 
+            document.getElementById('adminLoginModal').classList.add('hidden'); 
+        }
+
         function submitAdminLogin(e) {
             e.preventDefault();
             if (document.getElementById('adminPasswordInput').value !== ADMIN_PASSWORD) {
-                document.getElementById('adminLoginError').classList.remove('hidden'); return;
+                document.getElementById('adminLoginError').classList.remove('hidden'); 
+                return;
             }
-            adminAuthenticated = true; closeAdminLogin(); switchView('admin'); loadPaymentSettings();
+            adminAuthenticated = true; 
+            closeAdminLogin(); 
+            switchView('admin'); 
+            loadPaymentSettings();
         }
 
         function switchView(view) {
@@ -809,16 +868,20 @@
             const adminSec = document.getElementById('adminView');
             const switchText = document.getElementById('viewSwitchText');
 
-            if (view === 'admin' && !adminAuthenticated) { currentView = 'store'; return; }
+            if (view === 'admin' && !adminAuthenticated) { 
+                currentView = 'store'; 
+                return; 
+            }
+
             if (view === 'admin') {
                 clientSec.classList.add('hidden');
                 adminSec.classList.remove('hidden');
-                switchText.textContent = 'Ver Loja';
+                switchText.textContent = 'Loja';
                 renderAdminDashboard();
             } else {
                 adminSec.classList.add('hidden');
                 clientSec.classList.remove('hidden');
-                switchText.textContent = 'Painel ADM';
+                switchText.textContent = 'ADM';
                 renderProducts();
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -881,8 +944,8 @@
             if (filtered.length === 0) {
                 grid.innerHTML = `
                     <div class="col-span-full text-center py-12">
-                        <i data-lucide="gem" class="w-12 h-12 mx-auto text-gray-300 mb-3"></i>
-                        <p class="text-gray-500 font-medium text-sm">Nenhuma joia encontrada nesta categoria.</p>
+                        <i data-lucide="gem" class="w-10 h-10 sm:w-12 sm:h-12 mx-auto text-gray-300 mb-3"></i>
+                        <p class="text-gray-500 font-medium text-xs sm:text-sm">Nenhuma joia encontrada nesta busca.</p>
                     </div>
                 `;
                 lucide.createIcons();
@@ -891,25 +954,25 @@
 
             filtered.forEach(p => {
                 const card = document.createElement('div');
-                card.className = "bg-white rounded-2xl overflow-hidden border border-nude-200 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group";
+                card.className = "bg-white rounded-xl sm:rounded-2xl overflow-hidden border border-nude-200 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between group";
                 card.innerHTML = `
                     <div>
-                        <div class="relative h-64 overflow-hidden bg-nude-100 cursor-pointer" onclick="openProductDetail(${p.id})">
+                        <div class="relative h-40 sm:h-64 overflow-hidden bg-nude-100 cursor-pointer" onclick="openProductDetail(${p.id})">
                             <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='https://placehold.co/600x600/FAF8F5/D4AF37?text=Raio+de+Sol'">
-                            <span class="absolute top-3 left-3 bg-white/80 backdrop-blur-md text-charcoal text-[10px] uppercase tracking-widest font-semibold px-2.5 py-1 rounded-full">${p.category}</span>
+                            <span class="absolute top-2 left-2 sm:top-3 sm:left-3 bg-white/90 backdrop-blur-md text-charcoal text-[8px] sm:text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full">${p.category}</span>
                         </div>
-                        <div class="p-5">
-                            <h3 onclick="openProductDetail(${p.id})" class="font-serif text-base font-semibold text-charcoal hover:text-gold-600 transition-colors cursor-pointer line-clamp-1">${p.name}</h3>
-                            <p class="text-xs text-gray-500 mt-1 line-clamp-2">${p.description}</p>
+                        <div class="p-3 sm:p-5">
+                            <h3 onclick="openProductDetail(${p.id})" class="font-serif text-xs sm:text-base font-semibold text-charcoal hover:text-gold-600 transition-colors cursor-pointer line-clamp-1">${p.name}</h3>
+                            <p class="text-[10px] sm:text-xs text-gray-500 mt-1 line-clamp-2 hidden sm:block">${p.description}</p>
                         </div>
                     </div>
-                    <div class="p-5 pt-0 flex items-center justify-between">
+                    <div class="p-3 sm:p-5 pt-0 flex items-center justify-between gap-1">
                         <div>
-                            <span class="text-[10px] text-gray-400 block uppercase">Preço</span>
-                            <span class="font-semibold text-gold-600 text-lg">R$ ${p.price.toFixed(2).replace('.', ',')}</span>
+                            <span class="text-[8px] sm:text-[10px] text-gray-400 block uppercase">Preço</span>
+                            <span class="font-semibold text-gold-600 text-xs sm:text-lg">R$ ${p.price.toFixed(2).replace('.', ',')}</span>
                         </div>
-                        <button onclick="addToCart(${p.id})" class="bg-nude-100 hover:bg-gold-500 text-charcoal hover:text-white p-3 rounded-full transition-colors duration-300 shadow-sm">
-                            <i data-lucide="shopping-bag" class="w-4 h-4"></i>
+                        <button onclick="addToCart(${p.id})" class="bg-nude-100 hover:bg-gold-500 text-charcoal hover:text-white p-2 sm:p-3 rounded-full transition-colors duration-300 shadow-sm" aria-label="Adicionar ao Carrinho">
+                            <i data-lucide="shopping-bag" class="w-3.5 h-3.5 sm:w-4 sm:h-4"></i>
                         </button>
                     </div>
                 `;
@@ -983,7 +1046,7 @@
             if (cart.length === 0) {
                 itemsContainer.innerHTML = `
                     <div class="text-center py-12 text-gray-400">
-                        <i data-lucide="shopping-bag" class="w-12 h-12 mx-auto mb-2 opacity-50"></i>
+                        <i data-lucide="shopping-bag" class="w-10 h-10 sm:w-12 sm:h-12 mx-auto mb-2 opacity-50"></i>
                         <p class="text-xs uppercase tracking-wider">Seu carrinho está vazio</p>
                     </div>
                 `;
@@ -991,11 +1054,11 @@
                 cart.forEach(item => {
                     subtotal += item.price * item.quantity;
                     const itemEl = document.createElement('div');
-                    itemEl.className = "flex items-center space-x-4 border-b border-nude-100 pb-4";
+                    itemEl.className = "flex items-center space-x-3 sm:space-x-4 border-b border-nude-100 pb-3 sm:pb-4";
                     itemEl.innerHTML = `
-                        <img src="${item.image}" class="w-16 h-16 object-cover rounded-lg bg-nude-100">
+                        <img src="${item.image}" class="w-14 h-14 sm:w-16 sm:h-16 object-cover rounded-lg bg-nude-100 shrink-0">
                         <div class="flex-grow">
-                            <h4 class="text-xs font-semibold text-charcoal">${item.name}</h4>
+                            <h4 class="text-xs font-semibold text-charcoal line-clamp-1">${item.name}</h4>
                             <p class="text-xs text-gold-600 font-semibold mt-0.5">R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</p>
                             <div class="flex items-center space-x-2 mt-2">
                                 <button onclick="updateCartQuantity(${item.id}, -1)" class="w-5 h-5 bg-nude-100 rounded text-xs flex items-center justify-center font-bold text-gray-600 hover:bg-gold-500 hover:text-white">-</button>
@@ -1037,22 +1100,22 @@
 
             const modalContent = document.getElementById('productModalContent');
             modalContent.innerHTML = `
-                <div class="h-72 rounded-xl overflow-hidden bg-nude-100">
+                <div class="h-48 sm:h-72 rounded-xl overflow-hidden bg-nude-100">
                     <img src="${p.image}" alt="${p.name}" class="w-full h-full object-cover">
                 </div>
                 <div class="flex flex-col justify-between">
                     <div>
-                        <span class="text-[10px] text-gold-600 uppercase tracking-widest font-semibold">${p.category}</span>
-                        <h2 class="font-serif text-2xl font-bold text-charcoal mt-1">${p.name}</h2>
-                        <p class="text-xl font-semibold text-gold-600 mt-2">R$ ${p.price.toFixed(2).replace('.', ',')}</p>
-                        <p class="text-xs text-gray-600 mt-4 leading-relaxed">${p.description}</p>
-                        <div class="mt-4 text-xs text-gray-500">
+                        <span class="text-[9px] sm:text-[10px] text-gold-600 uppercase tracking-widest font-semibold">${p.category}</span>
+                        <h2 class="font-serif text-lg sm:text-2xl font-bold text-charcoal mt-0.5 sm:mt-1">${p.name}</h2>
+                        <p class="text-lg sm:text-xl font-semibold text-gold-600 mt-1 sm:mt-2">R$ ${p.price.toFixed(2).replace('.', ',')}</p>
+                        <p class="text-xs text-gray-600 mt-3 leading-relaxed">${p.description}</p>
+                        <div class="mt-3 sm:mt-4 text-[11px] sm:text-xs text-gray-500 space-y-1">
                             <span class="block">✓ Banhado a Ouro 18k com Duplo Selamento</span>
                             <span class="block">✓ Hipoalergênico (Sem Níquel)</span>
-                            <span class="block mt-1 text-emerald-600 font-medium">Disponível em estoque (${p.stock} unidades)</span>
+                            <span class="block text-emerald-600 font-medium">Disponível em estoque (${p.stock} un)</span>
                         </div>
                     </div>
-                    <button onclick="addToCart(${p.id}); closeProductModal();" class="mt-6 w-full bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest py-3.5 rounded-full transition-all">
+                    <button onclick="addToCart(${p.id}); closeProductModal();" class="mt-5 sm:mt-6 w-full bg-gold-500 hover:bg-gold-600 text-white font-medium text-xs uppercase tracking-widest py-3.5 rounded-full transition-all">
                         Adicionar ao Carrinho
                     </button>
                 </div>
@@ -1080,7 +1143,6 @@
             const total = cart.reduce((sum, i) => sum + (i.price * i.quantity), 0);
             document.getElementById('checkoutTotalBtn').textContent = `(R$ ${total.toFixed(2).replace('.', ',')})`;
 
-            updatePixCheckout();
             document.getElementById('checkoutModal').classList.remove('hidden');
         }
 
@@ -1098,13 +1160,26 @@
             const address = form.elements[3].value;
             const orderId = 'ORD-' + Date.now().toString().slice(-6);
             const itemsText = cart.map(i => `${i.quantity}x ${i.name} - R$ ${(i.price*i.quantity).toFixed(2).replace('.', ',')}`).join('\n');
-            const message = `Olá! Tenho interesse em finalizar o pedido ${orderId} na Raio de Sol.\nCliente: ${customer}\nE-mail: ${email}\nTelefone: ${phone}\nEndereço de entrega: ${address}\nItens:\n${itemsText}\nTotal dos produtos: R$ ${total.toFixed(2).replace('.', ',')}\nAinda não realizei nenhum pagamento. Por favor, entre em contato para confirmar disponibilidade, frete e combinar a forma de pagamento.`;
-            const waNumber = (storeSettings.whatsapp || '5531984339027').replace(/\D/g, '');
-            const newOrder = { id: orderId, customer, itemsCount: cart.reduce((sum, i) => sum + i.quantity, 0), payment: 'A combinar pelo WhatsApp', total, status: 'Aguardando contato', date: new Date().toISOString().split('T')[0] };
-            orders.unshift(newOrder); cart = []; saveData(); updateCartUI(); renderAdminDashboard();
+            const message = `Olá! Tenho interesse em finalizar o pedido ${orderId} na Raio de Sol.\nCliente: ${customer}\nE-mail: ${email}\nTelefone: ${phone}\nEndereço: ${address}\nItens:\n${itemsText}\nTotal: R$ ${total.toFixed(2).replace('.', ',')}\nPor favor, confirme a disponibilidade e forma de pagamento!`;
+            
+            const waNumber = (storeSettings.whatsapp || '5511998876655').replace(/\D/g, '');
+            const newOrder = { 
+                id: orderId, 
+                customer, 
+                itemsCount: cart.reduce((sum, i) => sum + i.quantity, 0), 
+                payment: 'WhatsApp', 
+                total, 
+                status: 'Pendente', 
+                date: new Date().toISOString().split('T')[0] 
+            };
+            
+            orders.unshift(newOrder); 
+            cart = []; 
+            saveData(); 
+            updateCartUI(); 
+            renderAdminDashboard();
+            
             closeCheckoutModal();
-            document.getElementById('successModal').querySelector('h3').textContent = 'Pedido preparado!';
-            document.getElementById('successModal').querySelector('p').textContent = 'O WhatsApp será aberto para você conversar com a loja e combinar o pagamento. Nenhum pagamento foi realizado pelo site.';
             document.getElementById('successModal').classList.remove('hidden');
             window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`, '_blank');
         }
@@ -1112,46 +1187,17 @@
         function loadPaymentSettings() {
             document.getElementById('storeWhatsapp').value = storeSettings.whatsapp || '5511998876655';
             document.getElementById('storePixKey').value = storeSettings.pixKey || '';
-            const preview = document.getElementById('adminPixQrPreview');
-            if (storeSettings.pixQr) { preview.src = storeSettings.pixQr; preview.classList.remove('hidden'); }
-            else preview.classList.add('hidden');
-            updatePixCheckout();
         }
+
         function savePaymentSettings() {
-            const file = document.getElementById('storePixQrFile').files[0];
-            const finish = (qr) => {
-                storeSettings.whatsapp = document.getElementById('storeWhatsapp').value.trim();
-                storeSettings.pixKey = document.getElementById('storePixKey').value.trim();
-                if (qr) storeSettings.pixQr = qr;
-                localStorage.setItem('rds_payment_settings', JSON.stringify(storeSettings));
-                loadPaymentSettings();
-                alert('Configurações salvas neste navegador.');
-            };
-            if (file) {
-                if (!file.type.startsWith('image/') || file.size > 1500000) { alert('Envie uma imagem de até 1,5 MB.'); return; }
-                const reader = new FileReader(); reader.onload = () => finish(reader.result); reader.readAsDataURL(file);
-            } else finish(null);
-        }
-        function updatePixCheckout() {
-            const img = document.getElementById('pixQrDisplay');
-            const key = document.getElementById('pixKeyDisplay');
-            if (!img || !key) return;
-            if (storeSettings.pixQr) { img.src = storeSettings.pixQr; img.classList.remove('hidden'); }
-            else img.classList.add('hidden');
-            key.textContent = storeSettings.pixKey ? `Chave PIX: ${storeSettings.pixKey}` : 'A loja ainda não cadastrou a chave PIX.';
-        }
-        function copyPixKey() {
-            if (!storeSettings.pixKey) { alert('A loja ainda não cadastrou a chave PIX.'); return; }
-            navigator.clipboard.writeText(storeSettings.pixKey).then(() => alert('Chave PIX copiada!')).catch(() => alert('Não foi possível copiar automaticamente. Chave: ' + storeSettings.pixKey));
+            storeSettings.whatsapp = document.getElementById('storeWhatsapp').value.trim();
+            storeSettings.pixKey = document.getElementById('storePixKey').value.trim();
+            localStorage.setItem('rds_payment_settings', JSON.stringify(storeSettings));
+            alert('Configurações salvas com sucesso!');
         }
 
         function closeSuccessModal() {
             document.getElementById('successModal').classList.add('hidden');
-        }
-
-        function toggleMobileMenu() {
-            const menu = document.getElementById('mobileMenu');
-            menu.classList.toggle('hidden');
         }
 
         // ==========================================
@@ -1167,13 +1213,13 @@
             if (tab === 'products') {
                 pTab.classList.remove('hidden');
                 oTab.classList.add('hidden');
-                pBtn.className = "pb-3 border-b-2 border-gold-500 text-gold-600 font-semibold flex items-center gap-2";
-                oBtn.className = "pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center gap-2";
+                pBtn.className = "pb-3 border-b-2 border-gold-500 text-gold-600 font-semibold flex items-center gap-1.5 sm:gap-2";
+                oBtn.className = "pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center gap-1.5 sm:gap-2";
             } else {
                 pTab.classList.add('hidden');
                 oTab.classList.remove('hidden');
-                oBtn.className = "pb-3 border-b-2 border-gold-500 text-gold-600 font-semibold flex items-center gap-2";
-                pBtn.className = "pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center gap-2";
+                oBtn.className = "pb-3 border-b-2 border-gold-500 text-gold-600 font-semibold flex items-center gap-1.5 sm:gap-2";
+                pBtn.className = "pb-3 border-b-2 border-transparent text-gray-500 hover:text-gray-700 flex items-center gap-1.5 sm:gap-2";
             }
         }
 
@@ -1194,14 +1240,14 @@
             products.forEach(p => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="p-4 flex items-center gap-3">
-                        <img src="${p.image}" class="w-10 h-10 object-cover rounded-lg bg-gray-100">
-                        <span class="font-semibold text-gray-800">${p.name}</span>
+                    <td class="p-3 sm:p-4 flex items-center gap-2 sm:gap-3">
+                        <img src="${p.image}" class="w-8 h-8 sm:w-10 sm:h-10 object-cover rounded-lg bg-gray-100 shrink-0">
+                        <span class="font-semibold text-gray-800 line-clamp-1">${p.name}</span>
                     </td>
-                    <td class="p-4 text-gray-600">${p.category}</td>
-                    <td class="p-4 font-semibold text-gold-600">R$ ${p.price.toFixed(2).replace('.', ',')}</td>
-                    <td class="p-4 text-gray-600">${p.stock} un</td>
-                    <td class="p-4 text-right space-x-2">
+                    <td class="p-3 sm:p-4 text-gray-600">${p.category}</td>
+                    <td class="p-3 sm:p-4 font-semibold text-gold-600">R$ ${p.price.toFixed(2).replace('.', ',')}</td>
+                    <td class="p-3 sm:p-4 text-gray-600">${p.stock} un</td>
+                    <td class="p-3 sm:p-4 text-right space-x-2">
                         <button onclick="editProduct(${p.id})" class="text-blue-600 hover:text-blue-800 font-medium">Editar</button>
                         <button onclick="deleteProduct(${p.id})" class="text-red-500 hover:text-red-700 font-medium">Excluir</button>
                     </td>
@@ -1215,19 +1261,19 @@
             orders.forEach(o => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td class="p-4 font-mono font-semibold text-gray-700">${o.id}</td>
-                    <td class="p-4 font-medium text-gray-800">${o.customer}</td>
-                    <td class="p-4 text-gray-600">${o.itemsCount} itens</td>
-                    <td class="p-4 text-gray-600">${o.payment}</td>
-                    <td class="p-4 font-semibold text-gold-600">R$ ${o.total.toFixed(2).replace('.', ',')}</td>
-                    <td class="p-4">
-                        <span class="px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase ${
+                    <td class="p-3 sm:p-4 font-mono font-semibold text-gray-700">${o.id}</td>
+                    <td class="p-3 sm:p-4 font-medium text-gray-800">${o.customer}</td>
+                    <td class="p-3 sm:p-4 text-gray-600">${o.itemsCount} itens</td>
+                    <td class="p-3 sm:p-4 text-gray-600">${o.payment}</td>
+                    <td class="p-3 sm:p-4 font-semibold text-gold-600">R$ ${o.total.toFixed(2).replace('.', ',')}</td>
+                    <td class="p-3 sm:p-4">
+                        <span class="px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full text-[9px] sm:text-[10px] font-semibold uppercase ${
                             o.status === 'Pago' ? 'bg-emerald-100 text-emerald-700' :
                             o.status === 'Enviado' ? 'bg-blue-100 text-blue-700' :
                             o.status === 'Entregue' ? 'bg-purple-100 text-purple-700' : 'bg-yellow-100 text-yellow-700'
                         }">${o.status}</span>
                     </td>
-                    <td class="p-4 text-right">
+                    <td class="p-3 sm:p-4 text-right">
                         <select onchange="updateOrderStatus('${o.id}', this.value)" class="bg-gray-50 border border-gray-200 rounded p-1 text-xs">
                             <option value="Pendente" ${o.status === 'Pendente' ? 'selected' : ''}>Pendente</option>
                             <option value="Pago" ${o.status === 'Pago' ? 'selected' : ''}>Pago</option>
@@ -1242,20 +1288,12 @@
             lucide.createIcons();
         }
 
-        document.addEventListener('change', function(e) {
-            if (e.target.id === 'adminProdImageFile' && e.target.files[0]) {
-                const f = e.target.files[0];
-                if (!f.type.startsWith('image/')) { alert('Selecione um arquivo de imagem.'); e.target.value=''; return; }
-                if (f.size > 1500000) { alert('A imagem deve ter até 1,5 MB.'); e.target.value=''; return; }
-                const r = new FileReader(); r.onload = () => { const p=document.getElementById('adminProdImagePreview'); p.src=r.result; p.classList.remove('hidden'); }; r.readAsDataURL(f);
-            }
-        });
-
         // Product CRUD Operations
         function openProductModal() {
             document.getElementById('adminModalTitle').textContent = 'Cadastrar Novo Produto';
             document.getElementById('adminProductForm').reset();
             document.getElementById('adminProdId').value = '';
+            document.getElementById('adminProdImagePreview').classList.add('hidden');
             document.getElementById('adminProductModal').classList.remove('hidden');
         }
 
@@ -1275,10 +1313,12 @@
             document.getElementById('adminProdStock').value = p.stock;
             document.getElementById('adminProdImage').value = p.image;
             document.getElementById('adminProdImageFile').value = '';
+            
             const preview = document.getElementById('adminProdImagePreview');
-            preview.src = p.image; preview.classList.remove('hidden');
+            preview.src = p.image; 
+            preview.classList.remove('hidden');
+            
             document.getElementById('adminProdDescription').value = p.description;
-
             document.getElementById('adminProductModal').classList.remove('hidden');
         }
 
@@ -1294,15 +1334,24 @@
             e.preventDefault();
             const file = document.getElementById('adminProdImageFile').files[0];
             if (file) {
-                if (file.size > 1500000) { alert('Escolha uma imagem de até 1,5 MB para evitar exceder o armazenamento do navegador.'); return; }
+                if (file.size > 1500000) { 
+                    alert('Escolha uma imagem de até 1,5 MB.'); 
+                    return; 
+                }
                 const reader = new FileReader();
-                reader.onload = () => { document.getElementById('adminProdImage').value = reader.result; saveProductData(); };
+                reader.onload = () => { 
+                    document.getElementById('adminProdImage').value = reader.result; 
+                    saveProductData(); 
+                };
                 reader.readAsDataURL(file);
                 return;
             }
-            if (!document.getElementById('adminProdImage').value) { alert('Selecione uma imagem do produto.'); return; }
+            if (!document.getElementById('adminProdImage').value) {
+                document.getElementById('adminProdImage').value = 'https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&q=80&w=800';
+            }
             saveProductData();
         }
+
         function saveProductData() {
             const id = document.getElementById('adminProdId').value;
             const name = document.getElementById('adminProdName').value;
@@ -1313,13 +1362,11 @@
             const description = document.getElementById('adminProdDescription').value;
 
             if (id) {
-                // Update Existing
                 const index = products.findIndex(p => p.id == id);
                 if (index !== -1) {
                     products[index] = { id: parseInt(id), name, category, price, stock, image, description };
                 }
             } else {
-                // Create New
                 const newProd = {
                     id: Date.now(),
                     name,
